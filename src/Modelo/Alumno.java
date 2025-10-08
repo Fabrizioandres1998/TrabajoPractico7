@@ -1,21 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
+
 import java.time.LocalDate;
 import java.util.Date;
-/**
- *
- * @author Fabrizio
- */
+
 public class Alumno {
-    
-  
-
-
-
-
 
     private int idAlumno = -1;
     private int dni;
@@ -84,4 +72,3 @@ public class Alumno {
     }
 
 }
-

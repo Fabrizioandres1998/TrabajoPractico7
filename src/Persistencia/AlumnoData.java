@@ -22,7 +22,7 @@ public class AlumnoData {
         String query = "INSERT INTO alumno(dni, apellido, nombre, fechaNacimiento, estado) VALUES (?, ?, ?, ?, ?)"; //armar query
 
         try {
-            PreparedStatement ps = conex.prepareStatement(query, Statement.RETURN_GENERATED_KEYS); //crear PreparedStatement ps
+            PreparedStatement ps = conex.prepareStatement(query, Statement.RETURN_GENERATED_KEYS); //crear PreparedStatement ps para ejecutar consultas sql en una bd reemplazando los valroes con parametros
             ps.setInt(1, a.getDni()); //reemplazar los comodines del query
             ps.setString(2, a.getApellido());
             ps.setString(3, a.getNombre());
@@ -39,7 +39,11 @@ public class AlumnoData {
             ps.close();
             System.out.println("Guardado");
         } catch (SQLException ex) {
-
+            System.err.println("Error al guardar el alumno: " + ex.getMessage());
+            ex.printStackTrace(); // imprime detalles del error
+        } catch (NullPointerException ex) {
+            System.err.println("Error: La fecha de nacimiento es nula.");
+            ex.printStackTrace();
         }
     }
 
@@ -123,6 +127,6 @@ public class AlumnoData {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-     return alumnos;   
+        return alumnos;
     }
-    }
+}
