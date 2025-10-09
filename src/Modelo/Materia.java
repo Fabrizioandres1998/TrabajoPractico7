@@ -1,6 +1,7 @@
 package Modelo;
 
 public class Materia {
+
     private int idMateria;
     private String nombre;
     private int año;
@@ -11,6 +12,9 @@ public class Materia {
         this.nombre = nombre;
         this.año = año;
         this.estado = estado;
+    }
+
+    public Materia() {
     }
 
     public int getIdMateria() {
@@ -44,6 +48,5 @@ public class Materia {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-    
+
 }
