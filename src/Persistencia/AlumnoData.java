@@ -113,6 +113,81 @@ public class AlumnoData {
             e.printStackTrace();
         }
     }
+    
+    // MÉTODO PARA BAJA LÓGICA (Inactivar Alumno)
+public void borrarAlumnoLogico(int id) {
+    // La consulta SQL cambia el estado a 0 (false) para el ID de alumno específico.
+    String query = "UPDATE alumno SET estado = 0 WHERE idAlumno = ?"; 
+    
+    try {
+        //Prepara la sentencia
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, id); 
+        
+        //Ejecuta la actualización
+        int filasAfectadas = ps.executeUpdate(); 
+        
+        if (filasAfectadas > 0) {
+            System.out.println("Alumno con ID " + id + " dado de baja lógicamente (Estado: Inactivo).");
+        } else {
+            System.err.println("No se encontró ningún alumno con ID " + id + " para dar de baja.");
+        }
+        ps.close();
+        
+    } catch (SQLException ex) {
+        System.err.println("Error al realizar la baja lógica del alumno: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
+
+// MÉTODO COMPLEMENTARIO PARA ALTA LÓGICA (Activar Alumno)
+public void activarAlumno(int id) {
+    
+    String query = "UPDATE alumno SET estado = 1 WHERE idAlumno = ?"; 
+    
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, id);
+        
+        int filasAfectadas = ps.executeUpdate(); 
+        
+        if (filasAfectadas > 0) {
+            System.out.println("Alumno con ID " + id + " dado de alta lógicamente (Estado: Activo).");
+        } else {
+            System.err.println("No se encontró ningún alumno con ID " + id + " para dar de alta.");
+        }
+        ps.close();
+        
+    } catch (SQLException ex) {
+        System.err.println("Error al realizar el alta lógica del alumno: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
+
+public void borrarAlumno(int id) {
+        // Query SQL para eliminar el registro de la tabla alumno por su ID
+        String query = "DELETE FROM alumno WHERE idAlumno = ?"; 
+        
+        try {
+            PreparedStatement ps = conex.prepareStatement(query);
+            ps.setInt(1, id); // Establece el ID del alumno a borrar
+            
+            int filasAfectadas = ps.executeUpdate(); // Ejecuta la consulta
+            
+            if (filasAfectadas > 0) {
+                System.out.println("Alumno eliminado físicamente (ID: " + id + ")");
+            } else {
+                System.out.println("No se encontró el alumno con ID: " + id + " para borrar.");
+            }
+            ps.close();
+            
+        } catch (SQLException ex) {
+            System.err.println("Error al borrar el alumno: " + ex.getMessage());
+            ex.printStackTrace();
+            
+            throw new RuntimeException("Error de BD al borrar el alumno."); 
+        }
+    }
 
     public Alumno buscarAlumno(int idAlumno) {
         Alumno a = null;

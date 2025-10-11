@@ -4,18 +4,22 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Persistencia.AlumnoData; 
+import Modelo.Alumno;          
+import java.time.LocalDate;     
+import javax.swing.JOptionPane;
 /**
  *
  * @author vanne
  */
 public class InsertarAlumno extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData;
     /**
      * Creates new form InsertarAlumno
      */
-    public InsertarAlumno() {
+    public InsertarAlumno(AlumnoData ad) {
         initComponents();
+        this.alumnoData = ad;
     }
 
     /**
@@ -35,10 +39,10 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        jTdni = new javax.swing.JTextField();
+        jTapellido = new javax.swing.JTextField();
+        jTnombre = new javax.swing.JTextField();
+        jTfechaNacimiento = new javax.swing.JTextField();
         jBinsertar = new javax.swing.JButton();
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -62,6 +66,12 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel6.setText("FechaNacimiento :");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jBinsertar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBinsertar.setText("Insertar ");
         jBinsertar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
@@ -78,10 +88,10 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
         jDesktopPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jTextField1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTdni, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTapellido, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTnombre, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTfechaNacimiento, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jBinsertar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -104,10 +114,10 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField5)))))
+                                    .addComponent(jTdni)
+                                    .addComponent(jTapellido)
+                                    .addComponent(jTnombre)
+                                    .addComponent(jTfechaNacimiento)))))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addComponent(jBinsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -125,19 +135,19 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTdni, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTfechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(jBinsertar)
                 .addContainerGap(78, Short.MAX_VALUE))
@@ -165,7 +175,51 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
 
     private void jBinsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinsertarActionPerformed
         // TODO add your handling code here:
+       try {
+            // 1. Obtener datos de los campos de texto
+            int dni = Integer.parseInt(jTdni.getText()); 
+            String apellido = jTapellido.getText();
+            String nombre = jTnombre.getText();
+            
+            // **IMPORTANTE: Si usas JDateChooser:**
+            // LocalDate fechaNacimiento = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            
+            // **Si usas JTextField para la fecha (ejemplo):**
+            LocalDate fechaNacimiento = LocalDate.parse(jTfechaNacimiento.getText()); 
+
+            // 2. Validar que los campos no estén vacíos (añade más validaciones si es necesario)
+            if (apellido.isEmpty() || nombre.isEmpty()) {
+                 JOptionPane.showMessageDialog(this, "Debe completar todos los campos.", "Datos Incompletos", JOptionPane.WARNING_MESSAGE);
+                 return;
+            }
+
+            // 3. Crear el objeto Alumno
+            // El 'true' es el estado inicial (activo)
+            Alumno nuevoAlumno = new Alumno(dni, apellido, nombre, fechaNacimiento, true); 
+
+            // 4. Guardar en la base de datos usando la capa de datos inyectada
+            alumnoData.guardarAlumno(nuevoAlumno);
+            
+            // 5. Mostrar mensaje y limpiar
+            JOptionPane.showMessageDialog(this, "Alumno insertado con éxito. ID: " + nuevoAlumno.getIdAlumno(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Limpiar campos (ajusta los nombres de tus JTextFields)
+            jTdni.setText("");
+            jTapellido.setText("");
+            jTnombre.setText("");
+            // jTfechaNacimiento.setText(""); // O reinicia el JDateChooser
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El DNI y/o la Fecha de Nacimiento no tienen un formato válido.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            // Captura cualquier otro error (ej: DNI duplicado en la base de datos)
+            JOptionPane.showMessageDialog(this, "Error al insertar el alumno: " + e.getMessage(), "Error de SQL", JOptionPane.ERROR_MESSAGE);
+        } 
     }//GEN-LAST:event_jBinsertarActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -177,10 +231,10 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField jTapellido;
+    private javax.swing.JTextField jTdni;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTfechaNacimiento;
+    private javax.swing.JTextField jTnombre;
     // End of variables declaration//GEN-END:variables
 }

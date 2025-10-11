@@ -4,18 +4,26 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Persistencia.AlumnoData; 
+import Modelo.Alumno;          
+import javax.swing.JOptionPane; 
 /**
  *
  * @author vanne
  */
 public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData;
+    private Alumno alumnoActual = null;
     /**
      * Creates new form BajaAltaLogicaAlumno
      */
-    public BajaAltaLogicaAlumno() {
+    public BajaAltaLogicaAlumno(AlumnoData ad) {
         initComponents();
+        initComponents();
+        this.alumnoData = ad; 
+        // Inhabilita los botones de acción hasta que se busque un alumno
+        jBbaja.setEnabled(false); 
+        jBalta.setEnabled(false);
     }
 
     /**
@@ -47,6 +55,11 @@ public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
         jBbuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbuscar.setText("Buscar");
         jBbuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jBbaja.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbaja.setText("Baja");
@@ -60,6 +73,11 @@ public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
         jBalta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBalta.setText("Alta");
         jBalta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBalta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBaltaActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -126,7 +144,94 @@ public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
 
     private void jBbajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaActionPerformed
         // TODO add your handling code here:
+        if (alumnoActual == null || !alumnoActual.getEstado()) {
+            JOptionPane.showMessageDialog(this, "Primero debe buscar un alumno ACTIVO para dar de baja.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        try {
+            if (JOptionPane.showConfirmDialog(this, "¿Está seguro de dar de BAJA (Inactivar) al alumno?", "Confirmar Baja Lógica", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                
+                // Llamar al método de la capa de datos
+                alumnoData.borrarAlumnoLogico(alumnoActual.getIdAlumno()); // Asume que este método cambia el estado a 'false'
+                
+                JOptionPane.showMessageDialog(this, "Alumno dado de BAJA (Inactivo) correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Resetear la vista
+                jTextField1.setText("");
+                alumnoActual = null;
+                jBbaja.setEnabled(false);
+                jBalta.setEnabled(false);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al intentar dar de baja: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBbajaActionPerformed
+
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+      try {
+            int idBusqueda = Integer.parseInt(jTextField1.getText());
+            alumnoActual = alumnoData.buscarAlumno(idBusqueda); // Usamos buscarAlumno por ID
+
+            if (alumnoActual != null) {
+                String estado = alumnoActual.getEstado() ? "ACTIVO" : "INACTIVO";
+                JOptionPane.showMessageDialog(this, 
+                    "Alumno encontrado: " + alumnoActual.getNombre() + " " + alumnoActual.getApellido() + 
+                    "\nEstado Actual: " + estado, 
+                    "Búsqueda Exitosa", JOptionPane.INFORMATION_MESSAGE);
+
+                // Habilitar/Deshabilitar botones de Baja/Alta
+                if (alumnoActual.getEstado()) {
+                    jBbaja.setEnabled(true);  // Si está activo, puede dar de BAJA
+                    jBalta.setEnabled(false);
+                } else {
+                    jBbaja.setEnabled(false);
+                    jBalta.setEnabled(true);  // Si está inactivo, puede dar de ALTA
+                }
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró ningún alumno con el ID ingresado.", "Error de Búsqueda", JOptionPane.ERROR_MESSAGE);
+                alumnoActual = null;
+                jBbaja.setEnabled(false);
+                jBalta.setEnabled(false);
+            }
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un ID válido (número entero).", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+            alumnoActual = null;
+            jBbaja.setEnabled(false);
+            jBalta.setEnabled(false);
+        }   
+    }//GEN-LAST:event_jBbuscarActionPerformed
+
+    private void jBaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaltaActionPerformed
+        // TODO add your handling code here:
+        if (alumnoActual == null || alumnoActual.getEstado()) {
+            JOptionPane.showMessageDialog(this, "Primero debe buscar un alumno INACTIVO para dar de alta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        try {
+            if (JOptionPane.showConfirmDialog(this, "¿Está seguro de dar de ALTA (Activar) al alumno?", "Confirmar Alta Lógica", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                
+                // LLAMADA A MÉTODO DE ALTA LÓGICA (Estado=1)
+                alumnoData.activarAlumno(alumnoActual.getIdAlumno()); 
+                
+                JOptionPane.showMessageDialog(this, "Alumno dado de ALTA (Activo) correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Resetear la vista
+                jTextField1.setText("");
+                alumnoActual = null;
+                jBbaja.setEnabled(false);
+                jBalta.setEnabled(false);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al intentar dar de alta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBaltaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

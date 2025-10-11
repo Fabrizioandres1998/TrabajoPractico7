@@ -1,12 +1,35 @@
 package Vista;
 
-public class SGULP extends javax.swing.JFrame {
+import modelo.Conexion;
+import Persistencia.AlumnoData;      
+import Persistencia.MateriaData;     
+import Persistencia.InscripcionData;
 
+public class SGULP extends javax.swing.JFrame {
+    private AlumnoData alumnoData;
+    private MateriaData materiaData;
+    private InscripcionData inscripcionData;
+    private Conexion conexion;
     /**
      * Creates new form NewJFrame
      */
-    public SGULP() {
+    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { 
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.alumnoData = ad; 
+        this.materiaData = md; 
+        this.inscripcionData = id; 
+    
+        try {
+            // **IMPORTANTE**: Revisa que los parámetros de tu BD sean correctos
+            conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", ""); 
+            alumnoData = new AlumnoData(conexion);
+        } catch (Exception ex) {
+            // Manejo de errores de conexión/inicialización
+            System.err.println("Error al iniciar la Conexión o AlumnoData: " + ex.getMessage());
+            // Si la conexión falla, es un error grave.
+        }
+    
     }
 
     /**
@@ -64,7 +87,35 @@ public class SGULP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void jmalumnoActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // 🔑 VALIDACIÓN DE SEGURIDAD: Verifica si la conexión falló al inicio.
+        if (alumnoData == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Error Crítico: No se pudo establecer la conexión a la base de datos (alumnoData es NULL).", 
+                "Error de Inicialización", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            return; // Si es nulo, detenemos la ejecución aquí.
+        }
+        for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            if (frame instanceof VistaAlumno) {
+                frame.toFront();
+                return;
+            }
+        }
+        
+        // Abre la vista de Alumno y le pasa la capa de datos
+        VistaAlumno va = new VistaAlumno(alumnoData, jDesktopPane1);
+        jDesktopPane1.add(va);
+        va.setVisible(true);
+        va.moveToFront(); 
+    }                                        
 
+    
+    private void jmateriaActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;

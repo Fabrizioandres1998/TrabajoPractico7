@@ -4,18 +4,25 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Persistencia.AlumnoData;
+import Modelo.Alumno;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
 /**
  *
  * @author vanne
  */
 public class BorrarAlumno extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData;
+    private Alumno alumnoEncontrado;
     /**
      * Creates new form BorrarAlumno
      */
-    public BorrarAlumno() {
+    public BorrarAlumno(AlumnoData ad) {
         initComponents();
+        this.alumnoData = ad;
+        // Limpiamos los campos al iniciar
+        limpiarCampos();
     }
 
     /**
@@ -52,10 +59,20 @@ public class BorrarAlumno extends javax.swing.JInternalFrame {
         jBbuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbuscar.setText("Buscar");
         jBbuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 0, 153), 3));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jBborrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBborrar.setText("Borrar");
         jBborrar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 0, 153), 3));
+        jBborrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBborrarActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -124,6 +141,75 @@ public class BorrarAlumno extends javax.swing.JInternalFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int id = Integer.parseInt(jTextField1.getText());
+
+            
+            alumnoEncontrado = alumnoData.buscarAlumno(id); 
+
+            if (alumnoEncontrado != null) {
+                
+                String mensaje = "Alumno encontrado:\n"
+                               + "ID: " + alumnoEncontrado.getIdAlumno() + "\n"
+                               + "Nombre: " + alumnoEncontrado.getNombre() + "\n"
+                               + "Apellido: " + alumnoEncontrado.getApellido() + "\n"
+                               + "DNI: " + alumnoEncontrado.getDni() + "\n"
+                               + "¿Desea borrar este alumno de forma PERMANENTE?";
+
+                
+                
+                
+                JOptionPane.showMessageDialog(this, mensaje, "Alumno a Borrar", JOptionPane.INFORMATION_MESSAGE);
+                
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró ningún alumno con ese ID.", "Error de Búsqueda", JOptionPane.ERROR_MESSAGE);
+                limpiarCampos();
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID válido (número).", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBbuscarActionPerformed
+
+    private void jBborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBborrarActionPerformed
+        // TODO add your handling code here:
+        if (alumnoEncontrado == null) {
+            JOptionPane.showMessageDialog(this, "Primero debe buscar un alumno a borrar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 1. Pedir confirmación final antes de la eliminación física
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro de BORRAR PERMANENTEMENTE a " + alumnoEncontrado.getNombre() + " " + alumnoEncontrado.getApellido() + "? Esta acción no se puede deshacer.",
+            "Confirmar Borrado Físico",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                // 2. Ejecutar el borrado físico (asumo que tu método recibe el ID)
+                alumnoData.borrarAlumno(alumnoEncontrado.getIdAlumno()); 
+                
+                JOptionPane.showMessageDialog(this, "Alumno borrado permanentemente con éxito.", "Borrado Exitoso", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCampos();
+
+            } catch (Exception ex) {
+                // Si tu método de borrarAlumno lanza una excepción, la manejas aquí
+                JOptionPane.showMessageDialog(this, "Error al intentar borrar el alumno: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jBborrarActionPerformed
+    
+    private void limpiarCampos() {        
+        jTextField1.setText(""); 
+        alumnoEncontrado = null; 
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,18 +4,25 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Persistencia.AlumnoData;
+import Modelo.Alumno;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author vanne
  */
 public class MostrarTodoAlumno extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData;
+    private DefaultTableModel modelo;
     /**
      * Creates new form MostrarTodoAlumno
      */
-    public MostrarTodoAlumno() {
+    public MostrarTodoAlumno(AlumnoData ad) {
         initComponents();
+        this.alumnoData = ad;
+        armarCabeceraTabla();
+        cargarAlumnos();
     }
 
     /**
@@ -75,6 +82,11 @@ public class MostrarTodoAlumno extends javax.swing.JInternalFrame {
         jBbuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbuscar.setText("Buscar");
         jBbuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -131,6 +143,56 @@ public class MostrarTodoAlumno extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+         cargarAlumnos();
+    }//GEN-LAST:event_jBbuscarActionPerformed
+    
+    
+    private void armarCabeceraTabla() {
+        modelo = new DefaultTableModel() {
+            // que la tabla NO sea editable
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false; 
+            }
+        };
+        
+        // Define las columnas
+        String[] titulos = {"ID", "DNI", "Apellido", "Nombre", "F. Nacimiento", "Estado"}; 
+        modelo.setColumnIdentifiers(titulos);
+        
+        // Asigna el modelo a tu JTable
+        jTable.setModel(modelo); 
+    }
+
+    
+    public void cargarAlumnos() {
+        // Limpiar filas anteriores 
+        modelo.setRowCount(0); 
+        
+        // Obtener la lista de alumnos
+        List<Alumno> listaAlumnos = alumnoData.obtenerTodosLosAlumnos(); 
+        
+        // Recorrer la lista y añadir cada alumno
+        for (Alumno alumno : listaAlumnos) {
+            
+            
+            String estadoTexto = alumno.getEstado() ? "ACTIVO" : "INACTIVO";
+            
+            
+            Object[] fila = new Object[] {
+                alumno.getIdAlumno(),
+                alumno.getDni(),
+                alumno.getApellido(),
+                alumno.getNombre(),
+                alumno.getFechaNacimiento(), 
+                estadoTexto
+            };
+            
+            modelo.addRow(fila);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBbuscar;

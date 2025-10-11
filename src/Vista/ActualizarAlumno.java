@@ -4,20 +4,33 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Persistencia.AlumnoData; 
+import Modelo.Alumno;          // Importar la clase Alumno
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane; 
 /**
  *
  * @author vanne
  */
 public class ActualizarAlumno extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData;
+    private Alumno alumnoActual = null; // Para guardar el alumno que se está editando
     /**
      * Creates new form ActualizarAlumno
      */
-    public ActualizarAlumno() {
+    public ActualizarAlumno(AlumnoData ad) {
         initComponents();
+        this.alumnoData = ad;
     }
-
+    
+     private void habilitarCampos(boolean estado) {
+        jTextField2.setEnabled(estado);
+        jTextField3.setEnabled(estado);
+        jTextField4.setEnabled(estado);
+        jTextField5.setEnabled(estado);
+        jBguardar.setEnabled(estado); // El botón Guardar se habilita solo si hay un alumno cargado
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -179,12 +192,90 @@ public class ActualizarAlumno extends javax.swing.JInternalFrame {
 
     private void jBguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarActionPerformed
         // TODO add your handling code here:
+        // Esta acción solo debe ocurrir si alumnoActual tiene datos cargados
+        if (alumnoActual == null) {
+            JOptionPane.showMessageDialog(this, "Primero debe buscar un alumno para poder actualizar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            // Obtener los nuevos valores de los campos
+            int nuevoDni = Integer.parseInt(jTextField2.getText()); 
+            String nuevoApellido = jTextField3.getText();
+            String nuevoNombre = jTextField4.getText();
+            String fechaTexto = jTextField5.getText();
+            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate nuevaFechaNacimiento = LocalDate.parse(fechaTexto, formatter); 
+
+            //Actualizar el objeto alumnoActual con los nuevos valores
+            alumnoActual.setDni(nuevoDni);
+            alumnoActual.setApellido(nuevoApellido);
+            alumnoActual.setNombre(nuevoNombre);
+            alumnoActual.setFechaNacimiento(nuevaFechaNacimiento);
+
+            // Llamar al método de actualización de la capa de datos
+            alumnoData.actualizarAlumno(alumnoActual);
+            
+            // Mensaje de éxito y limpieza
+            JOptionPane.showMessageDialog(this, "Alumno actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Limpiar y resetear vista
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+            jTextField5.setText("");
+            alumnoActual = null;
+            habilitarCampos(false);
+
+        } catch (java.time.format.DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Error de formato de fecha. Use el formato dd/MM/aaaa.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El DNI no es un número válido.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el alumno: " + e.getMessage(), "Error de SQL/Sistema", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBguardarActionPerformed
 
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jBbuscarActionPerformed
+        try {
+            int idBusqueda = Integer.parseInt(jTextField1.getText());
+            alumnoActual = alumnoData.buscarAlumno(idBusqueda); // O buscar Alumno Por Dni(idBusqueda)
 
+            if (alumnoActual != null && alumnoActual.getEstado()) {
+                
+                // Formatear fecha para mostrar
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String fechaNacTexto = alumnoActual.getFechaNacimiento().format(formatter);
+                
+                // Cargar datos del alumno encontrado en los campos
+                jTextField2.setText(String.valueOf(alumnoActual.getDni()));
+                jTextField3.setText(alumnoActual.getApellido());
+                jTextField4.setText(alumnoActual.getNombre());
+                jTextField5.setText(fechaNacTexto); 
+                
+                habilitarCampos(true); // Habilita los campos para la edición
+                
+            } else if (alumnoActual != null && !alumnoActual.getEstado()) {
+                JOptionPane.showMessageDialog(this, "El alumno con ID/DNI " + idBusqueda + " está dado de baja (Estado: Inactivo).", "Alumno Inactivo", JOptionPane.WARNING_MESSAGE);
+                alumnoActual = null;
+                habilitarCampos(false);
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró ningún alumno con el ID/DNI ingresado.", "Error de Búsqueda", JOptionPane.ERROR_MESSAGE);
+                alumnoActual = null;
+                habilitarCampos(false);
+            }
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un ID o DNI válido (número entero) para buscar.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+            alumnoActual = null;
+            habilitarCampos(false);
+        }
+    }//GEN-LAST:event_jBbuscarActionPerformed
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBbuscar;

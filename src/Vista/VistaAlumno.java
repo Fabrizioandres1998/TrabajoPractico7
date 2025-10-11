@@ -5,18 +5,27 @@
  */
 package Vista;
 
+import Persistencia.AlumnoData;
+import javax.swing.JDesktopPane;
 /**
  *
  * @author vanne
  */
 public class VistaAlumno extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData;
+    private JDesktopPane escritorio;
     /**
      * Creates new form VistasAlumno
      */
-    public VistaAlumno() {
+    public VistaAlumno(AlumnoData ad, JDesktopPane dp) {
         initComponents();
+        this.alumnoData = ad;
+        this.escritorio = dp;
     }
+
+   // VistaAlumno(AlumnoData alumnoData) {
+      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   // }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,16 +56,31 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         jBactualizar.setForeground(new java.awt.Color(102, 0, 153));
         jBactualizar.setText("Actualizar");
         jBactualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jBactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBactualizarActionPerformed(evt);
+            }
+        });
 
         jBbajaalta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbajaalta.setForeground(new java.awt.Color(102, 0, 153));
         jBbajaalta.setText("Baja/AltaLogica");
         jBbajaalta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jBbajaalta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbajaaltaActionPerformed(evt);
+            }
+        });
 
         jBmostrartodo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBmostrartodo.setForeground(new java.awt.Color(102, 0, 153));
         jBmostrartodo.setText("Mostrar Todos");
         jBmostrartodo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jBmostrartodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBmostrartodoActionPerformed(evt);
+            }
+        });
 
         jBborrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBborrar.setForeground(new java.awt.Color(204, 0, 0));
@@ -105,11 +129,43 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void jBinsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinsertarActionPerformed
         // TODO add your handling code here:
+        InsertarAlumno vi = new InsertarAlumno(this.alumnoData); 
+        this.getDesktopPane().add(vi);
+        vi.setVisible(true);
+        vi.moveToFront();
     }//GEN-LAST:event_jBinsertarActionPerformed
 
     private void jBborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBborrarActionPerformed
         // TODO add your handling code here:
+        BorrarAlumno vb = new BorrarAlumno(this.alumnoData); 
+        this.getDesktopPane().add(vb);
+        vb.setVisible(true);
+        vb.moveToFront();
     }//GEN-LAST:event_jBborrarActionPerformed
+
+    private void jBactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBactualizarActionPerformed
+        // TODO add your handling code here:
+        ActualizarAlumno va = new ActualizarAlumno(this.alumnoData); 
+        this.getDesktopPane().add(va);
+        va.setVisible(true);
+        va.moveToFront();
+    }//GEN-LAST:event_jBactualizarActionPerformed
+
+    private void jBbajaaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaaltaActionPerformed
+        // TODO add your handling code here:
+        BajaAltaLogicaAlumno vbal = new BajaAltaLogicaAlumno(this.alumnoData); 
+        this.getDesktopPane().add(vbal);
+        vbal.setVisible(true);
+        vbal.moveToFront();
+    }//GEN-LAST:event_jBbajaaltaActionPerformed
+
+    private void jBmostrartodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBmostrartodoActionPerformed
+        // TODO add your handling code here:
+        MostrarTodoAlumno vta = new MostrarTodoAlumno(this.alumnoData); 
+        this.getDesktopPane().add(vta);
+        vta.setVisible(true);
+        vta.moveToFront();
+    }//GEN-LAST:event_jBmostrartodoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
