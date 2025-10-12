@@ -71,6 +71,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBactualizarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBbajaalta">
       <Properties>
@@ -87,6 +90,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBbajaaltaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBmostrartodo">
       <Properties>
@@ -103,6 +109,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBmostrartodoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBborrar">
       <Properties>

@@ -4,16 +4,31 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import Modelo.Materia;
+import Persistencia.MateriaData;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author vanne
  */
 public class MostarTodoMateria extends javax.swing.JInternalFrame {
-
+    private MateriaData materiaData; 
+    private DefaultTableModel modelo;
     /**
      * Creates new form MostarTodoMateria
      */
+    public MostarTodoMateria(MateriaData md) { 
+        this.materiaData = md;
+        initComponents();
+        
+        armarCabeceraTabla();
+        cargarDatosTabla(null);
+        
+    }
+    
     public MostarTodoMateria() {
         initComponents();
     }
@@ -41,32 +56,6 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(102, 0, 102));
         jLabel1.setText("MostrarTodoAlumno");
 
-        jTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Id Materia", "Nombre", "Año", "Estado"
-            }
-        ));
         jScrollPane1.setViewportView(jTable);
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -74,7 +63,11 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
 
         jBbuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbuscar.setText("Buscar");
-        jBbuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -130,6 +123,72 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+    String idTexto = jText.getText().trim(); // 
+
+    if (idTexto.isEmpty()) {
+        // Si está vacío, llama al método para mostrar TODOS
+        cargarDatosTabla(null); 
+    } else {
+        try {
+            int id = Integer.parseInt(idTexto);
+            // Si tiene ID, llama al método para mostrar SOLO ese ID
+            cargarDatosTabla(id); 
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            jText.setText("");
+        }
+    }    
+    }//GEN-LAST:event_jBbuscarActionPerformed
+
+    private void armarCabeceraTabla() {
+    // Definimos el modelo y las columnas
+    modelo = new DefaultTableModel();
+    
+    // Asegúrate de que el orden y los tipos coincidan con lo que quieres mostrar
+    String[] titulos = {"ID", "Nombre", "Año", "Estado"};
+    modelo.setColumnIdentifiers(titulos);
+    
+    // Asignar el modelo al JTable (Asegúrate que tu JTable se llame jTableMaterias)
+    jTable.setModel(modelo); 
+}
+
+private void cargarDatosTabla(Integer idFiltro) {
+    modelo.setRowCount(0); // Limpiar filas
+
+    List<Materia> materias;
+    
+    if (idFiltro == null) {
+        // Cargar todos si no hay filtro
+        materias = materiaData.listarTodasMaterias();
+    } else {
+        // Cargar solo una si hay filtro
+        Materia m = materiaData.buscarMateria(idFiltro.intValue());
+        materias = new ArrayList<>();
+        if (m != null) {
+            materias.add(m);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró la materia con ID: " + idFiltro);
+            return; 
+        }
+    }
+
+    // Llenar la tabla con los resultados (uno o varios)
+    for (Materia m : materias) {
+        String estadoTexto = m.getEstado() ? "Activa" : "Inactiva";
+        
+        Object[] fila = {
+            m.getIdMateria(),
+            m.getNombre(),
+            m.getAño(),
+            estadoTexto
+        };
+        modelo.addRow(fila);
+    }
+}
+ 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

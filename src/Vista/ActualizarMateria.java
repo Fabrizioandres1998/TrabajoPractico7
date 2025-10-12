@@ -5,16 +5,26 @@
  */
 package Vista;
 
+import Persistencia.MateriaData;
+import Modelo.Materia;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vanne
  */
 public class ActualizarMateria extends javax.swing.JInternalFrame {
-
+    private MateriaData materiaData;
+    private Materia materiaActual = null; 
     /**
      * Creates new form ActualizarMateria
      */
-    public ActualizarMateria() {
+    public ActualizarMateria(MateriaData md) {
+        this.materiaData = md;
+        initComponents();
+    }
+    
+    public ActualizarMateria(){
         initComponents();
     }
 
@@ -33,12 +43,12 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
         jBbuscar = new javax.swing.JButton();
         jBguardar = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -60,11 +70,14 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
 
         jBbuscar.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
         jBbuscar.setText("Buscar");
-        jBbuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jBguardar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBguardar.setText("Guardar");
-        jBguardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
         jBguardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBguardarActionPerformed(evt);
@@ -76,12 +89,12 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
         jDesktopPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jTextField2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jTextField4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jBbuscar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jBguardar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextField1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextField3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTextField4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -104,11 +117,11 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
                                 .addComponent(jBbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(60, 60, 60)))
                         .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                            .addComponent(jBguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1)
                             .addComponent(jTextField3)
-                            .addComponent(jTextField4)
-                            .addComponent(jBguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField4))))
                 .addContainerGap(104, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
@@ -131,7 +144,7 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(108, 108, 108)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jBguardar)
@@ -161,7 +174,66 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
 
     private void jBguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarActionPerformed
         // TODO add your handling code here:
+        if (materiaActual == null) {
+            JOptionPane.showMessageDialog(this, "Primero debe buscar una Materia (con el botón Buscar) para actualizar.", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try {
+            // 1. Obtener los nuevos valores del formulario
+            String nombre = jTextField2.getText();
+            int año = Integer.parseInt(jTextField3.getText());
+
+            // 2. Actualizar el objeto 'materiaActual' con los nuevos datos
+            materiaActual.setNombre(nombre);
+            materiaActual.setAño(año);
+            // El estado (estado) se mantiene como estaba (true/false) al ser buscado.
+
+            // 3. Llamar al método de actualización de la capa de datos
+            materiaData.actualizarMateria(materiaActual);
+            
+            JOptionPane.showMessageDialog(this, "Materia ID " + materiaActual.getIdMateria() + " actualizada correctamente.");
+            
+            // Opcional: Limpiar los campos después de guardar
+            materiaActual = null;
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El campo 'Año' debe ser un número válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error crítico al guardar la materia: " + ex.getMessage(), "Error de base de datos", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBguardarActionPerformed
+
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int id = Integer.parseInt(jTextField1.getText());
+            
+            // 1. Llamar al método corregido
+            Materia m = materiaData.buscarMateria(id); 
+            
+            if (m != null) {
+                // 2. Guardar la materia encontrada en la variable de clase
+                materiaActual = m; 
+                
+                // 3. Cargar los datos en los campos de texto
+                jTextField2.setText(m.getNombre());
+                jTextField3.setText(String.valueOf(m.getAño()));
+                JOptionPane.showMessageDialog(this, "Materia encontrada. Modifique y guarde.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró la materia con ID: " + id, "Error de búsqueda", JOptionPane.WARNING_MESSAGE);
+                // Limpiar campos si no se encuentra
+                materiaActual = null;
+                jTextField2.setText("");
+                jTextField3.setText("");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un ID válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBbuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

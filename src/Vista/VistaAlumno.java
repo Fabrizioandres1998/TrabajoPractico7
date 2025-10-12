@@ -13,14 +13,17 @@ import javax.swing.JDesktopPane;
  */
 public class VistaAlumno extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData;
-    private JDesktopPane escritorio;
+    
+    
+    public VistaAlumno(AlumnoData ad) {
+        initComponents();
+        this.alumnoData = ad;
+    }
     /**
      * Creates new form VistasAlumno
      */
-    public VistaAlumno(AlumnoData ad, JDesktopPane dp) {
+    public VistaAlumno(){
         initComponents();
-        this.alumnoData = ad;
-        this.escritorio = dp;
     }
 
    // VistaAlumno(AlumnoData alumnoData) {

@@ -5,19 +5,27 @@
  */
 package Vista;
 
+import Persistencia.MateriaData;
+import javax.swing.JInternalFrame;
 /**
  *
  * @author vanne
  */
 public class VistaMateria extends javax.swing.JInternalFrame {
-
+    private MateriaData materiaData;
     /**
      * Creates new form VistaMateria
      */
+    public VistaMateria(MateriaData md){
+        this.materiaData = md;
+        initComponents();
+    }
+    
     public VistaMateria() {
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,17 +44,32 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jBactualizar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBactualizar.setForeground(new java.awt.Color(102, 0, 153));
         jBactualizar.setText("Actualizar");
-        jBactualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jBactualizar.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jBactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBactualizarActionPerformed(evt);
+            }
+        });
 
         jBbajaalta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbajaalta.setForeground(new java.awt.Color(102, 0, 153));
         jBbajaalta.setText("Baja/AltaLogica");
-        jBbajaalta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jBbajaalta.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jBbajaalta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbajaaltaActionPerformed(evt);
+            }
+        });
 
         jBmostrartodo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBmostrartodo.setForeground(new java.awt.Color(102, 0, 153));
         jBmostrartodo.setText("Mostrar Todos");
-        jBmostrartodo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jBmostrartodo.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jBmostrartodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBmostrartodoActionPerformed(evt);
+            }
+        });
 
         jBborrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBborrar.setForeground(new java.awt.Color(204, 0, 0));
@@ -105,11 +128,73 @@ public class VistaMateria extends javax.swing.JInternalFrame {
 
     private void jBborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBborrarActionPerformed
         // TODO add your handling code here:
+        BorrarMateria vm = new BorrarMateria(materiaData); 
+    
+    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
+    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
+    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    if (this.getDesktopPane() != null) {
+        this.getDesktopPane().add(vm);
+        vm.setVisible(true);
+        vm.toFront();
+    }
     }//GEN-LAST:event_jBborrarActionPerformed
 
     private void jBinsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinsertarActionPerformed
         // TODO add your handling code here:
+                InsertarMateria vm = new InsertarMateria(materiaData); 
+    
+    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
+    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
+    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    if (this.getDesktopPane() != null) {
+        this.getDesktopPane().add(vm);
+        vm.setVisible(true);
+        vm.toFront();
+    }
     }//GEN-LAST:event_jBinsertarActionPerformed
+
+    private void jBactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBactualizarActionPerformed
+        // TODO add your handling code here:
+        ActualizarMateria vm = new ActualizarMateria(materiaData); 
+    
+    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
+    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
+    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    if (this.getDesktopPane() != null) {
+        this.getDesktopPane().add(vm);
+        vm.setVisible(true);
+        vm.toFront();
+    }
+    }//GEN-LAST:event_jBactualizarActionPerformed
+
+    private void jBbajaaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaaltaActionPerformed
+        // TODO add your handling code here:
+            BajaAltaMateria vm = new BajaAltaMateria(materiaData); 
+    
+    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
+    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
+    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    if (this.getDesktopPane() != null) {
+        this.getDesktopPane().add(vm);
+        vm.setVisible(true);
+        vm.toFront();
+    }
+    }//GEN-LAST:event_jBbajaaltaActionPerformed
+
+    private void jBmostrartodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBmostrartodoActionPerformed
+        // TODO add your handling code here:
+                MostarTodoMateria vm = new MostarTodoMateria(materiaData); 
+    
+    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
+    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
+    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    if (this.getDesktopPane() != null) {
+        this.getDesktopPane().add(vm);
+        vm.setVisible(true);
+        vm.toFront();
+    }
+    }//GEN-LAST:event_jBmostrartodoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

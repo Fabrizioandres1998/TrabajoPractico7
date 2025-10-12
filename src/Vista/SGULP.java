@@ -13,7 +13,26 @@ public class SGULP extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { 
+    
+    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { // ⬅️ DEJA SOLO ESTE CONSTRUCTOR
+        initComponents();
+        this.setLocationRelativeTo(null);
+        
+        this.alumnoData = ad;
+        this.materiaData = md;
+        this.inscripcionData = id;
+        /*try {
+            // **AQUÍ VA TODA LA LÓGICA DE INICIALIZACIÓN**
+            conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", ""); 
+            alumnoData = new AlumnoData(conexion);
+            materiaData = new MateriaData(conexion);
+            inscripcionData = new InscripcionData(conexion);
+            
+        } catch (Exception ex) {
+            System.err.println("Error Crítico al iniciar la aplicación. La conexión o las capas de datos fallaron: " + ex.getMessage());
+        }*/
+    }
+    /*public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { 
         initComponents();
         this.setLocationRelativeTo(null);
         this.alumnoData = ad; 
@@ -30,7 +49,7 @@ public class SGULP extends javax.swing.JFrame {
             // Si la conexión falla, es un error grave.
         }
     
-    }
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,11 +82,26 @@ public class SGULP extends javax.swing.JFrame {
         jMenu1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         jMenu1.setForeground(new java.awt.Color(0, 0, 153));
         jMenu1.setText("Vistas");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         jmalumno.setText("Vista Alumno");
+        jmalumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmalumnoActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmalumno);
 
         jmateria.setText("Vista Materia");
+        jmateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmateriaActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmateria);
 
         jMenuBar1.add(jMenu1);
@@ -87,8 +121,13 @@ public class SGULP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void jmalumnoActionPerformed(java.awt.event.ActionEvent evt) {                                         
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jmalumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmalumnoActionPerformed
+        // TODO add your handling code here:
         // 🔑 VALIDACIÓN DE SEGURIDAD: Verifica si la conexión falló al inicio.
         if (alumnoData == null) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -105,17 +144,31 @@ public class SGULP extends javax.swing.JFrame {
         }
         
         // Abre la vista de Alumno y le pasa la capa de datos
-        VistaAlumno va = new VistaAlumno(alumnoData, jDesktopPane1);
+        VistaAlumno va = new VistaAlumno(alumnoData);
         jDesktopPane1.add(va);
         va.setVisible(true);
         va.moveToFront(); 
-    }                                        
+          
+    }//GEN-LAST:event_jmalumnoActionPerformed
 
-    
-    private void jmateriaActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jmateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmateriaActionPerformed
+        // TODO add your handling code here:
+        if (materiaData == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error: No se inicializaron los datos (materiaData es NULL).", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 2. Crear una nueva instancia de la vista de Materia, pasándole los datos.
+        VistaMateria vm = new VistaMateria(materiaData); 
         
-    }
+        // 3. Añadirla al escritorio y hacerla visible
+        jDesktopPane1.add(vm);
+        vm.setVisible(true);
+        vm.toFront();
+    }//GEN-LAST:event_jmateriaActionPerformed
     
+    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;

@@ -6,14 +6,28 @@ import modelo.Conexion;
 import Persistencia.MateriaData;      
 import Persistencia.InscripcionData;
 import java.time.LocalDate;
+import org.mariadb.jdbc.Connection;
 
 public class TrabajoPractico7 {
 
     public static void main(String[] args) {
         
-    
-        // 1. Configurar y crear la CONEXION (¡Asegúrate que los parámetros sean correctos!)
-        Conexion conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", "");
+        // Datos de tu base de datos (los mismos que en phpMyAdmin)
+        String url = "jdbc:mariadb://localhost:3306/sgulp"; // o jdbc:mysql://...
+        String usuario = "root";
+        String password = "";
+
+        // Crear objeto de conexión
+        Conexion conexion = new Conexion(url, usuario, password);
+        Connection con = (Connection) conexion.buscarConexion();
+
+        // Verificar conexión
+        if (con != null) {
+            System.out.println("Conectado correctamente a la base de datos.");
+        } else {
+            System.out.println("No se pudo conectar.");
+        }
+        
     
         // 2. Crear las CAPAS DE DATOS (Persistencia)
         AlumnoData alumnoData = new AlumnoData(conexion);
@@ -23,7 +37,6 @@ public class TrabajoPractico7 {
         // 3. Crear e iniciar la ventana principal (SGULP)
         // Le pasamos todas las capas de datos al constructor de SGULP.
         SGULP menuPrincipal = new SGULP(alumnoData, materiaData, inscripcionData); 
-    
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null); // Centra la ventana
        }

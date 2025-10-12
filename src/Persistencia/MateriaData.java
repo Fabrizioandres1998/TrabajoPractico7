@@ -18,7 +18,7 @@ public class MateriaData {
         this.conex = c.buscarConexion();
     }
 
-    public void guardarMateria(Materia m) {
+ /*   public void guardarMateria(Materia m) {
         String query = "INSERT INTO materia(nombre, año, estado) VALUES (?, ?, ?)";
 
         try {
@@ -43,8 +43,8 @@ public class MateriaData {
             ex.printStackTrace();
         }
     }
-
-    public void actualizarMateria(Materia m) {
+*/
+   /* public void actualizarMateria(Materia m) {
         String query = "UPDATE materia SET nombre = ?, año = ?, estado = ? WHERE idMateria = ?";
 
         try {
@@ -62,7 +62,7 @@ public class MateriaData {
             System.err.println("Error: Algún dato de la materia es nulo.");
             ex.printStackTrace();
         }
-    }
+    }*/
 
     public void bajafisicaMateria(Materia m) {
         String query = "DELETE FROM materia WHERE idMateria = ?";
@@ -109,25 +109,28 @@ public class MateriaData {
         }
     }
 
-    public void buscarMateria(int idMateria) {
+    public Materia buscarMateria(int idMateria) {
         Materia m = null;
-        String query = "SELECT * FROM materia WHERE idMateria = ?";
+    String query = "SELECT idMateria, nombre, año, estado FROM materia WHERE idMateria = ?";
 
-        try {
-            PreparedStatement ps = conex.prepareStatement(query);
-            ps.setInt(1, idMateria);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                m = new Materia();
-                m.setIdMateria(rs.getInt("idMateria"));
-                m.setNombre(rs.getString(("nombre")));
-                m.setAño(rs.getInt("año"));
-                m.setEstado(rs.getBoolean("estado"));
-            }
-            ps.close();
-
-        } catch (Exception e) {
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, idMateria);
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            m = new Materia();
+            m.setIdMateria(rs.getInt("idMateria"));
+            m.setNombre(rs.getString("nombre"));
+            m.setAño(rs.getInt("año"));
+            m.setEstado(rs.getBoolean("estado"));
         }
+        ps.close();
+
+    } catch (SQLException e) {
+        System.err.println("Error al buscar la materia: " + e.getMessage());
+    }
+    return m;
     }
     
         public List<Materia> obtenerTodasLasMaterias() {
@@ -152,4 +155,150 @@ public class MateriaData {
         }
         return materias;
     }
+
+    public void actualizarMateria(Materia m) {
+    String query = "UPDATE materia SET nombre = ?, año = ?, estado = ? WHERE idMateria = ?";
+
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setString(1, m.getNombre());
+        ps.setInt(2, m.getAño());
+        ps.setBoolean(3, m.getEstado());
+        ps.setInt(4, m.getIdMateria()); // Cláusula WHERE
+        
+        int exito = ps.executeUpdate();
+        if (exito == 1) {
+            System.out.println("Materia actualizada exitosamente: " + m.getNombre());
+        } else {
+            System.out.println("La Materia no existe o no se pudo actualizar.");
+        }
+        ps.close();
+    } catch (SQLException ex) {
+        System.err.println("Error al actualizar la materia: " + ex.getMessage());
+    }
+    }
+    
+    public void bajaMateria(int idMateria) {
+    // 0 representa 'false' (INACTIVO) en la base de datos
+    String query = "UPDATE materia SET estado = 0 WHERE idMateria = ?";
+    
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, idMateria);
+        
+        int exito = ps.executeUpdate();
+        
+        if (exito == 0) {
+            // Si el ID no existe en la BD
+            System.out.println("No se encontró la materia con ID: " + idMateria);
+        }
+        
+        ps.close();
+    } catch (SQLException ex) {
+        // Manejo de error de SQL
+        System.err.println("Error al dar de BAJA la materia: " + ex.getMessage());
+    }
 }
+    
+    public void altaMateria(int idMateria) {
+    // 1 representa 'true' (ACTIVO) en la base de datos
+    String query = "UPDATE materia SET estado = 1 WHERE idMateria = ?";
+    
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, idMateria);
+        
+        int exito = ps.executeUpdate();
+        
+        if (exito == 0) {
+             // Si el ID no existe en la BD
+            System.out.println("No se encontró la materia con ID: " + idMateria);
+        }
+        
+        ps.close();
+    } catch (SQLException ex) {
+        // Manejo de error de SQL
+        System.err.println("Error al dar de ALTA la materia: " + ex.getMessage());
+    }
+}
+    
+  public void guardarMateria(Materia materia) {
+    // La consulta INSERT INTO: No incluimos idMateria (es autoincremental)
+    // El estado (estado) se establece por defecto en 1 (true) para una nueva materia.
+    String query = "INSERT INTO materia (nombre, año, estado) VALUES (?, ?, ?)";
+    
+    try {
+        // Usamos RETURN_GENERATED_KEYS para poder obtener el ID que asignó la BD
+        PreparedStatement ps = conex.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+        
+        // 1. Asignar los parámetros a la consulta
+        ps.setString(1, materia.getNombre());
+        ps.setInt(2, materia.getAño());
+        ps.setBoolean(3, true); // Por defecto, se inserta activa
+
+        ps.executeUpdate();
+        
+        // 2. Obtener el ID generado por la base de datos
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            materia.setIdMateria(rs.getInt(1));
+            System.out.println("Materia guardada exitosamente con ID: " + materia.getIdMateria());
+        }
+        
+        ps.close();
+
+    } catch (SQLException ex) {
+        System.err.println("Error al guardar la materia: " + ex.getMessage());
+        // Aquí podrías lanzar una excepción o mostrar un mensaje más amigable
+    }
+}  
+  
+public int borrarMateria(int idMateria) {
+    String query = "DELETE FROM materia WHERE idMateria = ?";
+    int filasBorradas = 0;
+    
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, idMateria);
+        
+        filasBorradas = ps.executeUpdate();
+        
+        if (filasBorradas > 0) {
+            System.out.println("Materia ID " + idMateria + " borrada exitosamente.");
+        }
+        
+        ps.close();
+    } catch (SQLException ex) {
+        System.err.println("Error al borrar la materia: " + ex.getMessage());
+    }
+    return filasBorradas; // Retornamos el número de filas afectadas
+}
+
+public List<Materia> listarTodasMaterias() {
+    List<Materia> materias = new ArrayList<>();
+    // Traemos TODAS las materias, sin importar el estado
+    String query = "SELECT idMateria, nombre, año, estado FROM materia"; 
+    
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            Materia m = new Materia();
+            m.setIdMateria(rs.getInt("idMateria"));
+            m.setNombre(rs.getString("nombre"));
+            m.setAño(rs.getInt("año"));
+            m.setEstado(rs.getBoolean("estado")); // Lee el estado
+            
+            materias.add(m);
+        }
+        
+        ps.close();
+    } catch (SQLException ex) {
+        System.err.println("Error al listar todas las materias: " + ex.getMessage());
+    }
+    return materias;
+}
+}
+
+

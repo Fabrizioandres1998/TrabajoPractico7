@@ -5,15 +5,26 @@
  */
 package Vista;
 
+import Modelo.Materia;
+import Persistencia.MateriaData; 
+import javax.swing.JOptionPane;
 /**
  *
  * @author vanne
  */
 public class BajaAltaMateria extends javax.swing.JInternalFrame {
-
+    
+    private MateriaData materiaData;
+    private Materia materiaActual = null;
     /**
      * Creates new form BajaAltaMateria
      */
+    
+    public BajaAltaMateria(MateriaData md) { 
+        this.materiaData = md;
+        initComponents();
+    }
+    
     public BajaAltaMateria() {
         initComponents();
     }
@@ -46,11 +57,14 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
 
         jBbuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbuscar.setText("Buscar");
-        jBbuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarActionPerformed(evt);
+            }
+        });
 
         jBbaja.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbaja.setText("Baja");
-        jBbaja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
         jBbaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBbajaActionPerformed(evt);
@@ -59,7 +73,11 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
 
         jBalta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBalta.setText("Alta");
-        jBalta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jBalta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBaltaActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -105,7 +123,7 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
                     .addComponent(jBbuscar)
                     .addComponent(jBbaja)
                     .addComponent(jBalta))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -126,7 +144,106 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
 
     private void jBbajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaActionPerformed
         // TODO add your handling code here:
+        try {
+            // 1. Obtener y validar el ID
+            int id = Integer.parseInt(jTextField1.getText()); 
+            
+            // 2. Opcional, pero seguro: Verificar que la materia exista antes de la Baja
+            Materia m = materiaData.buscarMateria(id); 
+
+            if (m == null) {
+                JOptionPane.showMessageDialog(this, "La materia con ID " + id + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!m.getEstado()) { 
+                JOptionPane.showMessageDialog(this, "La materia ya está INACTIVA (dada de baja).");
+                return;
+            }
+
+            // 3. Llamar al método de persistencia
+            materiaData.bajaMateria(id); 
+            
+            JOptionPane.showMessageDialog(this, "Materia ID " + id + " dada de BAJA correctamente.");
+            jTextField1.setText("");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un ID válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al dar de baja: " + ex.getMessage(), "Error de BD", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBbajaActionPerformed
+
+    private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
+        // TODO add your handling code here:
+        // 1. Validar que el campo no esté vacío
+        if (jTextField1.getText().trim().isEmpty()) { 
+            JOptionPane.showMessageDialog(this, "Debe ingresar el ID de la materia a buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // 2. Convertir y validar el ID
+            int id = Integer.parseInt(jTextField1.getText());
+            
+            // 3. Buscar en la capa de persistencia
+            Materia m = materiaData.buscarMateria(id); 
+            
+            if (m != null) {
+                // Si la materia existe, la guardamos y mostramos el mensaje.
+                materiaActual = m; 
+                
+                String estadoTexto = m.getEstado() ? "ACTIVA" : "INACTIVA";
+                
+                // 4. Mostrar el resultado completo
+                JOptionPane.showMessageDialog(this, 
+                        "Materia Encontrada:\n" +
+                        "ID: " + m.getIdMateria() + "\n" +
+                        "Nombre: " + m.getNombre() + "\n" +
+                        "Estado Actual: " + estadoTexto + "\n\n" +
+                        "Ahora puede presionar ALTA o BAJA.", 
+                        "Búsqueda Exitosa", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                        
+            } else {
+                // 5. Si no se encuentra
+                materiaActual = null; 
+                JOptionPane.showMessageDialog(this, "No existe ninguna materia con el ID: " + id, "Error de Búsqueda", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBbuscarActionPerformed
+
+    private void jBaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaltaActionPerformed
+        // TODO add your handling code here:
+        try {
+            // 1. Obtener y validar el ID
+            int id = Integer.parseInt(jTextField1.getText()); 
+            
+            // 2. Opcional, pero seguro: Verificar que la materia exista antes del Alta
+            Materia m = materiaData.buscarMateria(id); 
+            
+            if (m == null) {
+                JOptionPane.showMessageDialog(this, "La materia con ID " + id + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (m.getEstado()) { 
+                JOptionPane.showMessageDialog(this, "La materia ya está ACTIVA (dada de alta).");
+                return;
+            }
+            
+            // 3. Llamar al método de persistencia
+            materiaData.altaMateria(id); 
+            
+            JOptionPane.showMessageDialog(this, "Materia ID " + id + " dada de ALTA correctamente.");
+            jTextField1.setText("");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un ID válido.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al dar de alta: " + ex.getMessage(), "Error de BD", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBaltaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -7,7 +7,7 @@ public class Materia {
     private int año;
     private boolean estado;
 
-    public Materia(int idMateria, String nombre, int año, boolean estado) {
+    public Materia(String nombre, int idMateria) {
         this.idMateria = idMateria;
         this.nombre = nombre;
         this.año = año;
