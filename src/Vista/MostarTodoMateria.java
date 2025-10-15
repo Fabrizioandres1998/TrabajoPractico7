@@ -54,7 +54,7 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 0, 102));
-        jLabel1.setText("MostrarTodoAlumno");
+        jLabel1.setText("MostrarTodoMateria");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("ID.Materia :");
