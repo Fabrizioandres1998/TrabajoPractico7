@@ -48,7 +48,7 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
         jText = new javax.swing.JTextField();
         jBbuscar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableMaterias = new javax.swing.JTable();
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -67,8 +67,8 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMaterias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 0, 102), 3));
+        jTableMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -93,7 +93,7 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
                 "Id materia", "nombre", "año", "estado"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTableMaterias);
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -178,7 +178,7 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
     modelo.setColumnIdentifiers(titulos);
     
     // Asignar el modelo al JTable (Asegúrate que tu JTable se llame jTableMaterias)
-    jTable.setModel(modelo); 
+    jTableMaterias.setModel(modelo); 
 }
 
 private void cargarDatosTabla(Integer idFiltro) {
@@ -223,7 +223,7 @@ private void cargarDatosTabla(Integer idFiltro) {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableMaterias;
     private javax.swing.JTextField jText;
     // End of variables declaration//GEN-END:variables
 }
