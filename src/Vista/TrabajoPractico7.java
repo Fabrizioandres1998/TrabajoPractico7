@@ -13,7 +13,7 @@ public class TrabajoPractico7 {
     public static void main(String[] args) {
         
         // Datos de tu base de datos (los mismos que en phpMyAdmin)
-        String url = "jdbc:mariadb://localhost:3306/sgulp"; // o jdbc:mysql://...
+        String url = "jdbc:mariadb://localhost:3307/sgulp"; // o jdbc:mysql://...
         String usuario = "root";
         String password = "";
 
