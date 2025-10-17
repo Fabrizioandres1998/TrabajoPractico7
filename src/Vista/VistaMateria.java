@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vista;
 
 import Persistencia.MateriaData;
 import javax.swing.JInternalFrame;
-/**
- *
- * @author vanne
- */
+
 public class VistaMateria extends javax.swing.JInternalFrame {
     private MateriaData materiaData;
     /**
@@ -41,10 +34,15 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jBborrar = new javax.swing.JButton();
         jBinsertar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jBactualizar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBactualizar.setForeground(new java.awt.Color(102, 0, 153));
         jBactualizar.setText("Actualizar");
-        jBactualizar.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jBactualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jBactualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBactualizarActionPerformed(evt);
@@ -54,7 +52,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jBbajaalta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBbajaalta.setForeground(new java.awt.Color(102, 0, 153));
         jBbajaalta.setText("Baja/AltaLogica");
-        jBbajaalta.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jBbajaalta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jBbajaalta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBbajaaltaActionPerformed(evt);
@@ -64,7 +62,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jBmostrartodo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBmostrartodo.setForeground(new java.awt.Color(102, 0, 153));
         jBmostrartodo.setText("Mostrar Todos");
-        jBmostrartodo.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jBmostrartodo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jBmostrartodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBmostrartodoActionPerformed(evt);

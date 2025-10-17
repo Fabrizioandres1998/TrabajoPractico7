@@ -42,6 +42,11 @@ public class MostrarTodoAlumno extends javax.swing.JInternalFrame {
         jText = new javax.swing.JTextField();
         jBbuscar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N

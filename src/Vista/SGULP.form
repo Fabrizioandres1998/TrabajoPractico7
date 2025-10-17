@@ -36,12 +36,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmateriaActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="jminscripcion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="VistaInscripcion"/>
+                <Property name="text" type="java.lang.String" value="Vista Inscripcion"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jminscripcionActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

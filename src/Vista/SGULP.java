@@ -1,23 +1,24 @@
 package Vista;
 
 import modelo.Conexion;
-import Persistencia.AlumnoData;      
-import Persistencia.MateriaData;     
+import Persistencia.AlumnoData;
+import Persistencia.MateriaData;
 import Persistencia.InscripcionData;
 
 public class SGULP extends javax.swing.JFrame {
+
     private AlumnoData alumnoData;
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
     private Conexion conexion;
+
     /**
      * Creates new form NewJFrame
      */
-    
     public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { // ⬅️ DEJA SOLO ESTE CONSTRUCTOR
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         this.alumnoData = ad;
         this.materiaData = md;
         this.inscripcionData = id;
@@ -32,6 +33,7 @@ public class SGULP extends javax.swing.JFrame {
             System.err.println("Error Crítico al iniciar la aplicación. La conexión o las capas de datos fallaron: " + ex.getMessage());
         }*/
     }
+
     /*public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { 
         initComponents();
         this.setLocationRelativeTo(null);
@@ -50,7 +52,6 @@ public class SGULP extends javax.swing.JFrame {
         }
     
     }*/
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +66,7 @@ public class SGULP extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jmalumno = new javax.swing.JMenuItem();
         jmateria = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jminscripcion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,13 +106,13 @@ public class SGULP extends javax.swing.JFrame {
         });
         jMenu1.add(jmateria);
 
-        jMenuItem1.setText("VistaInscripcion");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jminscripcion.setText("Vista Inscripcion");
+        jminscripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jminscripcionActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jminscripcion);
 
         jMenuBar1.add(jMenu1);
 
@@ -139,10 +140,10 @@ public class SGULP extends javax.swing.JFrame {
         // TODO add your handling code here:
         // 🔑 VALIDACIÓN DE SEGURIDAD: Verifica si la conexión falló al inicio.
         if (alumnoData == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "Error Crítico: No se pudo establecer la conexión a la base de datos (alumnoData es NULL).", 
-                "Error de Inicialización", 
-                javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error Crítico: No se pudo establecer la conexión a la base de datos (alumnoData es NULL).",
+                    "Error de Inicialización",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
             return; // Si es nulo, detenemos la ejecución aquí.
         }
         for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
@@ -151,13 +152,14 @@ public class SGULP extends javax.swing.JFrame {
                 return;
             }
         }
-        
+
         // Abre la vista de Alumno y le pasa la capa de datos
-        VistaAlumno va = new VistaAlumno(alumnoData);
+        VistaAlumno va  = new VistaAlumno(alumnoData);
         jDesktopPane1.add(va);
         va.setVisible(true);
-        va.moveToFront(); 
-          
+        va.moveToFront();
+
+
     }//GEN-LAST:event_jmalumnoActionPerformed
 
     private void jmateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmateriaActionPerformed
@@ -168,27 +170,36 @@ public class SGULP extends javax.swing.JFrame {
         }
 
         // 2. Crear una nueva instancia de la vista de Materia, pasándole los datos.
-        VistaMateria vm = new VistaMateria(materiaData); 
-        
+        VistaMateria vm = new VistaMateria(materiaData);
+
         // 3. Añadirla al escritorio y hacerla visible
         jDesktopPane1.add(vm);
         vm.setVisible(true);
         vm.toFront();
     }//GEN-LAST:event_jmateriaActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-    
-    
-  
+    private void jminscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jminscripcionActionPerformed
+
+        // Crear la vista de inscripción pasándole la capa de datos
+        VistaInscripcion vi = new VistaInscripcion(alumnoData, materiaData, inscripcionData);
+
+        // Agregarla al escritorio (JDesktopPane) del JFrame principal
+        jDesktopPane1.add(vi);
+
+        // Mostrar la ventana interna
+        vi.setVisible(true);
+
+        // Opcional: traerla al frente
+        vi.toFront();
+    }//GEN-LAST:event_jminscripcionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jmalumno;
     private javax.swing.JMenuItem jmateria;
+    private javax.swing.JMenuItem jminscripcion;
     // End of variables declaration//GEN-END:variables
 }

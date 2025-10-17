@@ -41,6 +41,11 @@ public class BorrarAlumno extends javax.swing.JInternalFrame {
         jBbuscar = new javax.swing.JButton();
         jBborrar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

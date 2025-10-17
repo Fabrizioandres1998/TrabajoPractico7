@@ -35,6 +35,11 @@ public class ListarInscripciones extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {

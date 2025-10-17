@@ -18,6 +18,10 @@ public class AlumnoData {
         this.conex = con.buscarConexion();
     }
 
+    public AlumnoData() {
+    }
+    
+
     public void guardarAlumno(Alumno a) {
         String query = "INSERT INTO alumno(dni, apellido, nombre, fechaNacimiento, estado) VALUES (?, ?, ?, ?, ?)"; //armar query
 

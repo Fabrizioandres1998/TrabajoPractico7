@@ -40,6 +40,11 @@ public class BorrarMateria extends javax.swing.JInternalFrame {
         jTextField1 = new javax.swing.JTextField();
         jBborrar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

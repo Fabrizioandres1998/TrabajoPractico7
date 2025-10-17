@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Conexion;
+import Persistencia.AlumnoData;
+import Persistencia.MateriaData;
 
 public class InscripcionData {
 
@@ -81,23 +83,36 @@ public class InscripcionData {
 
     public Inscripcion buscarInscripcion(int idInscripto) {
         Inscripcion i = null;
-        String query = "SELECT * FROM inscripcion WHERE idInscripto = ?";
+        String query = "SELECT i.*, m.nombre as nombre_materia, m.año, m.estado as estado_materia, "
+                + "a.nombre as nombre_alumno, a.apellido as alumno_apellido "
+                + "FROM inscripcion i "
+                + "JOIN materia m ON i.idMateria = m.idMateria "
+                + "JOIN alumno a ON i.idAlumno = a.idAlumno "
+                + "WHERE i.idInscripto = ?";
 
         try {
             PreparedStatement ps = conex.prepareStatement(query);
             ps.setInt(1, idInscripto);
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 i = new Inscripcion();
                 i.setIdInscripto(rs.getInt("idInscripto"));
                 i.setNota(rs.getInt("nota"));
 
-                Alumno a = new Alumno(0, "", "", null, true);
+                // Alumno completo
+                Alumno a = new Alumno();
                 a.setIdAlumno(rs.getInt("idAlumno"));
+                a.setNombre(rs.getString("nombre_alumno"));
+                a.setApellido(rs.getString("alumno_apellido"));
                 i.setAlumno(a);
 
+                // Materia completa con nombre
                 Materia m = new Materia();
                 m.setIdMateria(rs.getInt("idMateria"));
+                m.setNombre(rs.getString("nombre_materia")); // ✅ ¡Nombre incluido!
+                m.setAño(rs.getInt("año"));
+                m.setEstado(rs.getBoolean("estado_materia"));
                 i.setMateria(m);
             }
             ps.close();
@@ -110,7 +125,11 @@ public class InscripcionData {
 
     public List<Inscripcion> obtenerTodasLasInscripciones() {
         List<Inscripcion> inscripciones = new ArrayList<>();
-        String query = "SELECT * FROM inscripcion"; //armar query para obtener todas las inscripciones
+        String query = "SELECT i.*, m.nombre as nombre_materia, m.año, m.estado as estado_materia, "
+                + "a.nombre as nombre_alumno, a.apellido as alumno_apellido "
+                + "FROM inscripcion i "
+                + "JOIN materia m ON i.idMateria = m.idMateria "
+                + "JOIN alumno a ON i.idAlumno = a.idAlumno";
 
         try {
             PreparedStatement ps = conex.prepareStatement(query);
@@ -121,12 +140,19 @@ public class InscripcionData {
                 inscripcion.setIdInscripto(rs.getInt("idInscripto"));
                 inscripcion.setNota(rs.getInt("nota"));
 
-                Alumno a = new Alumno(0, "", "", null, true);
+                // Alumno con datos completos
+                Alumno a = new Alumno();
                 a.setIdAlumno(rs.getInt("idAlumno"));
+                a.setNombre(rs.getString("nombre_alumno"));
+                a.setApellido(rs.getString("alumno_apellido"));
                 inscripcion.setAlumno(a);
 
+                // Materia con datos completos (¡INCLUYENDO NOMBRE!)
                 Materia m = new Materia();
                 m.setIdMateria(rs.getInt("idMateria"));
+                m.setNombre(rs.getString("nombre_materia")); // ✅ ¡Aquí está el nombre!
+                m.setAño(rs.getInt("año"));
+                m.setEstado(rs.getBoolean("estado_materia"));
                 inscripcion.setMateria(m);
 
                 inscripciones.add(inscripcion);
@@ -140,5 +166,3 @@ public class InscripcionData {
         return inscripciones;
     }
 }
-
-

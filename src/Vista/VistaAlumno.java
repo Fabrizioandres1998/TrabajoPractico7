@@ -1,35 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Persistencia.AlumnoData;
 import javax.swing.JDesktopPane;
-/**
- *
- * @author vanne
- */
+
 public class VistaAlumno extends javax.swing.JInternalFrame {
+
     private AlumnoData alumnoData;
-    
-    
+
     public VistaAlumno(AlumnoData ad) {
         initComponents();
         this.alumnoData = ad;
     }
+
     /**
      * Creates new form VistasAlumno
      */
-    public VistaAlumno(){
+    public VistaAlumno() {
         initComponents();
     }
 
-   // VistaAlumno(AlumnoData alumnoData) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-   // }
-
+    // VistaAlumno(AlumnoData alumnoData) {
+    //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    // }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +36,11 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         jBbajaalta = new javax.swing.JButton();
         jBmostrartodo = new javax.swing.JButton();
         jBborrar = new javax.swing.JButton();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         jBinsertar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jBinsertar.setForeground(new java.awt.Color(102, 0, 153));
@@ -132,7 +129,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void jBinsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinsertarActionPerformed
         // TODO add your handling code here:
-        InsertarAlumno vi = new InsertarAlumno(this.alumnoData); 
+        InsertarAlumno vi = new InsertarAlumno(this.alumnoData);
         this.getDesktopPane().add(vi);
         vi.setVisible(true);
         vi.moveToFront();
@@ -140,7 +137,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void jBborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBborrarActionPerformed
         // TODO add your handling code here:
-        BorrarAlumno vb = new BorrarAlumno(this.alumnoData); 
+        BorrarAlumno vb = new BorrarAlumno(this.alumnoData);
         this.getDesktopPane().add(vb);
         vb.setVisible(true);
         vb.moveToFront();
@@ -148,7 +145,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void jBactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBactualizarActionPerformed
         // TODO add your handling code here:
-        ActualizarAlumno va = new ActualizarAlumno(this.alumnoData); 
+        ActualizarAlumno va  = new ActualizarAlumno(this.alumnoData);
         this.getDesktopPane().add(va);
         va.setVisible(true);
         va.moveToFront();
@@ -156,7 +153,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void jBbajaaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaaltaActionPerformed
         // TODO add your handling code here:
-        BajaAltaLogicaAlumno vbal = new BajaAltaLogicaAlumno(this.alumnoData); 
+        BajaAltaLogicaAlumno vbal = new BajaAltaLogicaAlumno(this.alumnoData);
         this.getDesktopPane().add(vbal);
         vbal.setVisible(true);
         vbal.moveToFront();
@@ -164,7 +161,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void jBmostrartodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBmostrartodoActionPerformed
         // TODO add your handling code here:
-        MostrarTodoAlumno vta = new MostrarTodoAlumno(this.alumnoData); 
+        MostrarTodoAlumno vta = new MostrarTodoAlumno(this.alumnoData);
         this.getDesktopPane().add(vta);
         vta.setVisible(true);
         vta.moveToFront();

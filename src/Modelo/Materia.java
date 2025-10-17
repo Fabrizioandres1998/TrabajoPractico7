@@ -7,7 +7,7 @@ public class Materia {
     private int año;
     private boolean estado;
 
-    public Materia(String nombre, int idMateria) {
+    public Materia(int idMateria, String nombre, int año, boolean estado) {
         this.idMateria = idMateria;
         this.nombre = nombre;
         this.año = año;
@@ -15,6 +15,12 @@ public class Materia {
     }
 
     public Materia() {
+    }
+
+    public Materia(String nombre, int año) {
+        this.nombre = nombre;
+        this.año = año;
+        this.estado = true; // estado por defecto
     }
 
     public int getIdMateria() {
