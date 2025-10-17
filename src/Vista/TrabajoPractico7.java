@@ -12,16 +12,16 @@ public class TrabajoPractico7 {
 
     public static void main(String[] args) {
         
-        // Datos de tu base de datos (los mismos que en phpMyAdmin)
+        // Datos de la base de datos 
         String url = "jdbc:mariadb://localhost:3306/sgulp"; // o jdbc:mysql://...
         String usuario = "root";
         String password = "";
 
-        // Crear objeto de conexión
+        // Crea objeto de conexión
         Conexion conexion = new Conexion(url, usuario, password);
         Connection con = (Connection) conexion.buscarConexion();
 
-        // Verificar conexión
+        // Verifica conexion
         if (con != null) {
             System.out.println("Conectado correctamente a la base de datos.");
         } else {
@@ -29,13 +29,13 @@ public class TrabajoPractico7 {
         }
         
     
-        // 2. Crear las CAPAS DE DATOS (Persistencia)
+        //  Crea las CAPAS DE DATOS 
         AlumnoData alumnoData = new AlumnoData(conexion);
         MateriaData materiaData = new MateriaData(conexion);
         InscripcionData inscripcionData = new InscripcionData(conexion);
     
-        // 3. Crear e iniciar la ventana principal (SGULP)
-        // Le pasamos todas las capas de datos al constructor de SGULP.
+        //  Crea y inicia la ventana principal (SGULP)
+        
         SGULP menuPrincipal = new SGULP(alumnoData, materiaData, inscripcionData); 
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null); // Centra la ventana

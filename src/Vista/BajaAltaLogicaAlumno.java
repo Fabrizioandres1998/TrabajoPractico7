@@ -14,14 +14,12 @@ import javax.swing.JOptionPane;
 public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData;
     private Alumno alumnoActual = null;
-    /**
-     * Creates new form BajaAltaLogicaAlumno
-     */
+    
     public BajaAltaLogicaAlumno(AlumnoData ad) {
         initComponents();
         initComponents();
         this.alumnoData = ad; 
-        // Inhabilita los botones de acción hasta que se busque un alumno
+        // inabilita  los botones de accion hasta que se busque un alumno
         jBbaja.setEnabled(false); 
         jBalta.setEnabled(false);
     }
@@ -157,8 +155,8 @@ public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
         try {
             if (JOptionPane.showConfirmDialog(this, "¿Está seguro de dar de BAJA (Inactivar) al alumno?", "Confirmar Baja Lógica", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 
-                // Llamar al método de la capa de datos
-                alumnoData.borrarAlumnoLogico(alumnoActual.getIdAlumno()); // Asume que este método cambia el estado a 'false'
+                // Llama al metodo de la capa de datos
+                alumnoData.borrarAlumnoLogico(alumnoActual.getIdAlumno()); // Asume que este metodo cambia el estado a 'false'
                 
                 JOptionPane.showMessageDialog(this, "Alumno dado de BAJA (Inactivo) correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 
@@ -189,11 +187,11 @@ public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
 
                 // Habilitar/Deshabilitar botones de Baja/Alta
                 if (alumnoActual.getEstado()) {
-                    jBbaja.setEnabled(true);  // Si está activo, puede dar de BAJA
+                    jBbaja.setEnabled(true);  // Si esta activo, puede dar de baja
                     jBalta.setEnabled(false);
                 } else {
                     jBbaja.setEnabled(false);
-                    jBalta.setEnabled(true);  // Si está inactivo, puede dar de ALTA
+                    jBalta.setEnabled(true);  // Si esta inactivo, puede dar de altaa
                 }
                 
             } else {
@@ -221,7 +219,7 @@ public class BajaAltaLogicaAlumno extends javax.swing.JInternalFrame {
         try {
             if (JOptionPane.showConfirmDialog(this, "¿Está seguro de dar de ALTA (Activar) al alumno?", "Confirmar Alta Lógica", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 
-                // LLAMADA A MÉTODO DE ALTA LÓGICA (Estado=1)
+                // llama al metodo alta logica
                 alumnoData.activarAlumno(alumnoActual.getIdAlumno()); 
                 
                 JOptionPane.showMessageDialog(this, "Alumno dado de ALTA (Activo) correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);

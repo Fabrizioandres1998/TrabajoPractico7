@@ -17,7 +17,7 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
     private MateriaData materiaData;
     private Materia materiaActual = null;
     /**
-     * Creates new form BajaAltaMateria
+     *  BajaAltaMateria
      */
     
     public BajaAltaMateria(MateriaData md) { 
@@ -150,10 +150,10 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
     private void jBbajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaActionPerformed
         // TODO add your handling code here:
         try {
-            // 1. Obtener y validar el ID
+            // Obtener y validar el ID
             int id = Integer.parseInt(jTextField1.getText()); 
             
-            // 2. Opcional, pero seguro: Verificar que la materia exista antes de la Baja
+            //  Verificar que la materia exista antes de la Baja
             Materia m = materiaData.buscarMateria(id); 
 
             if (m == null) {
@@ -165,7 +165,7 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // 3. Llamar al método de persistencia
+            //  Llama al metodo de persistencia
             materiaData.bajaMateria(id); 
             
             JOptionPane.showMessageDialog(this, "Materia ID " + id + " dada de BAJA correctamente.");
@@ -179,22 +179,22 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBbajaActionPerformed
 
     private void jBbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarActionPerformed
-        // TODO add your handling code here:
-        // 1. Validar que el campo no esté vacío
+       
+        // Valida que el campo no este vacio
         if (jTextField1.getText().trim().isEmpty()) { 
             JOptionPane.showMessageDialog(this, "Debe ingresar el ID de la materia a buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         try {
-            // 2. Convertir y validar el ID
+            //  Convertir y validar el ID
             int id = Integer.parseInt(jTextField1.getText());
             
-            // 3. Buscar en la capa de persistencia
+            //  Buscar en la capa de persistencia
             Materia m = materiaData.buscarMateria(id); 
             
             if (m != null) {
-                // Si la materia existe, la guardamos y mostramos el mensaje.
+                // si la materia existe, la guarda y muestra el mensaje.
                 materiaActual = m; 
                 
                 String estadoTexto = m.getEstado() ? "ACTIVA" : "INACTIVA";
@@ -210,7 +210,7 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
                         JOptionPane.INFORMATION_MESSAGE);
                         
             } else {
-                // 5. Si no se encuentra
+                //  si no se encuentra
                 materiaActual = null; 
                 JOptionPane.showMessageDialog(this, "No existe ninguna materia con el ID: " + id, "Error de Búsqueda", JOptionPane.ERROR_MESSAGE);
             }
@@ -222,10 +222,10 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
     private void jBaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaltaActionPerformed
         // TODO add your handling code here:
         try {
-            // 1. Obtener y validar el ID
+            //  Obtener y validar el id
             int id = Integer.parseInt(jTextField1.getText()); 
             
-            // 2. Opcional, pero seguro: Verificar que la materia exista antes del Alta
+            //  Verifica que la materia exista antes del Alta
             Materia m = materiaData.buscarMateria(id); 
             
             if (m == null) {
@@ -237,7 +237,7 @@ public class BajaAltaMateria extends javax.swing.JInternalFrame {
                 return;
             }
             
-            // 3. Llamar al método de persistencia
+            //  Llamar al metodo de persistencia
             materiaData.altaMateria(id); 
             
             JOptionPane.showMessageDialog(this, "Materia ID " + id + " dada de ALTA correctamente.");

@@ -11,9 +11,7 @@ package Vista;
  */
 public class ListarInscripciones extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ListarInscripciones
-     */
+   
     public ListarInscripciones() {
         initComponents();
     }

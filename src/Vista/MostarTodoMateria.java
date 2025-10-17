@@ -17,9 +17,7 @@ import javax.swing.JOptionPane;
 public class MostarTodoMateria extends javax.swing.JInternalFrame {
     private MateriaData materiaData; 
     private DefaultTableModel modelo;
-    /**
-     * Creates new form MostarTodoMateria
-     */
+   
     public MostarTodoMateria(MateriaData md) { 
         this.materiaData = md;
         initComponents();
@@ -160,12 +158,12 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
     String idTexto = jText.getText().trim(); // 
 
     if (idTexto.isEmpty()) {
-        // Si está vacío, llama al método para mostrar TODOS
+        // Si esta vacio, llama al metodo para mostrar todos
         cargarDatosTabla(null); 
     } else {
         try {
             int id = Integer.parseInt(idTexto);
-            // Si tiene ID, llama al método para mostrar SOLO ese ID
+            // Si tiene ID, llama al metodo para mostrar solo ese ID
             cargarDatosTabla(id); 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -175,27 +173,27 @@ public class MostarTodoMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBbuscarActionPerformed
 
     private void armarCabeceraTabla() {
-    // Definimos el modelo y las columnas
+    // Define el modelo y las columnas
     modelo = new DefaultTableModel();
     
-    // Asegúrate de que el orden y los tipos coincidan con lo que quieres mostrar
+   
     String[] titulos = {"ID", "Nombre", "Año", "Estado"};
     modelo.setColumnIdentifiers(titulos);
     
-    // Asignar el modelo al JTable (Asegúrate que tu JTable se llame jTableMaterias)
+ 
     jTableMaterias.setModel(modelo); 
 }
 
 private void cargarDatosTabla(Integer idFiltro) {
-    modelo.setRowCount(0); // Limpiar filas
+    modelo.setRowCount(0); // Limpia filas
 
     List<Materia> materias;
     
     if (idFiltro == null) {
-        // Cargar todos si no hay filtro
+        // Carga todos si no hay filtro
         materias = materiaData.listarTodasMaterias();
     } else {
-        // Cargar solo una si hay filtro
+        // Carga solo una si hay filtro
         Materia m = materiaData.buscarMateria(idFiltro.intValue());
         materias = new ArrayList<>();
         if (m != null) {
@@ -206,7 +204,7 @@ private void cargarDatosTabla(Integer idFiltro) {
         }
     }
 
-    // Llenar la tabla con los resultados (uno o varios)
+    // Llena la tabla con los resultados 
     for (Materia m : materias) {
         String estadoTexto = m.getEstado() ? "Activa" : "Inactiva";
         

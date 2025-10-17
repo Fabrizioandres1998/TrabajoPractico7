@@ -15,7 +15,7 @@ public class SGULP extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { // ⬅️ DEJA SOLO ESTE CONSTRUCTOR
+    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { 
         initComponents();
         this.setLocationRelativeTo(null);
 
@@ -23,14 +23,14 @@ public class SGULP extends javax.swing.JFrame {
         this.materiaData = md;
         this.inscripcionData = id;
         /*try {
-            // **AQUÍ VA TODA LA LÓGICA DE INICIALIZACIÓN**
+            // **logica de inicializacion**
             conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", ""); 
             alumnoData = new AlumnoData(conexion);
             materiaData = new MateriaData(conexion);
             inscripcionData = new InscripcionData(conexion);
             
         } catch (Exception ex) {
-            System.err.println("Error Crítico al iniciar la aplicación. La conexión o las capas de datos fallaron: " + ex.getMessage());
+            System.err.println("Error Critico al iniciar la aplicación. La conexión o las capas de datos fallaron: " + ex.getMessage());
         }*/
     }
 
@@ -42,7 +42,7 @@ public class SGULP extends javax.swing.JFrame {
         this.inscripcionData = id; 
     
         try {
-            // **IMPORTANTE**: Revisa que los parámetros de tu BD sean correctos
+            // 
             conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", ""); 
             alumnoData = new AlumnoData(conexion);
         } catch (Exception ex) {

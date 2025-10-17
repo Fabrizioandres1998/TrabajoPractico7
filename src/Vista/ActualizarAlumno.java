@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class ActualizarAlumno extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData;
-    private Alumno alumnoActual = null; // Para guardar el alumno que se está editando
+    private Alumno alumnoActual = null; // Para guardar  alumno 
     /**
      * Creates new form ActualizarAlumno
      */
@@ -197,14 +197,14 @@ public class ActualizarAlumno extends javax.swing.JInternalFrame {
 
     private void jBguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarActionPerformed
         // TODO add your handling code here:
-        // Esta acción solo debe ocurrir si alumnoActual tiene datos cargados
+        
         if (alumnoActual == null) {
             JOptionPane.showMessageDialog(this, "Primero debe buscar un alumno para poder actualizar.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            // Obtener los nuevos valores de los campos
+            // Obtiene los nuevos valores de los campos
             int nuevoDni = Integer.parseInt(jTextField2.getText()); 
             String nuevoApellido = jTextField3.getText();
             String nuevoNombre = jTextField4.getText();
@@ -213,16 +213,16 @@ public class ActualizarAlumno extends javax.swing.JInternalFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate nuevaFechaNacimiento = LocalDate.parse(fechaTexto, formatter); 
 
-            //Actualizar el objeto alumnoActual con los nuevos valores
+            //Actualiza el objeto alumnoActual con los nuevos valores
             alumnoActual.setDni(nuevoDni);
             alumnoActual.setApellido(nuevoApellido);
             alumnoActual.setNombre(nuevoNombre);
             alumnoActual.setFechaNacimiento(nuevaFechaNacimiento);
 
-            // Llamar al método de actualización de la capa de datos
+            // Llama al metodo de actualizacion de la capa de datos
             alumnoData.actualizarAlumno(alumnoActual);
             
-            // Mensaje de éxito y limpieza
+            // Mensaje de exito y limpieza
             JOptionPane.showMessageDialog(this, "Alumno actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             
             // Limpiar y resetear vista
@@ -261,7 +261,7 @@ public class ActualizarAlumno extends javax.swing.JInternalFrame {
                 jTextField4.setText(alumnoActual.getNombre());
                 jTextField5.setText(fechaNacTexto); 
                 
-                habilitarCampos(true); // Habilita los campos para la edición
+                habilitarCampos(true); // Habilita los campos para la edicion
                 
             } else if (alumnoActual != null && !alumnoActual.getEstado()) {
                 JOptionPane.showMessageDialog(this, "El alumno con ID/DNI " + idBusqueda + " está dado de baja (Estado: Inactivo).", "Alumno Inactivo", JOptionPane.WARNING_MESSAGE);

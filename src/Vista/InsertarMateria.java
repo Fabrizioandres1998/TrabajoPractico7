@@ -154,29 +154,29 @@ public class InsertarMateria extends javax.swing.JInternalFrame {
         String nombre = jTextField1.getText().trim();
     String añoTexto = jTextField2.getText().trim();
 
-    // 1. Validaciones básicas
+    //  Validaciones 
     if (nombre.isEmpty() || añoTexto.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debe completar todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
     try {
-        // 2. Validar formato numérico para el año
+        //  Valida que sea un formato numerio  para el año
         int año = Integer.parseInt(añoTexto);
 
-        // 3. Crear el objeto Materia (el ID y el estado se asignan en MateriaData)
+        // Crea el objeto Materia 
         Materia nuevaMateria = new Materia(nombre, año); // Asumo que tienes un constructor (String, int)
 
-        // 4. Llamar al método de persistencia
+        //  Llama al metodo de persistencia
         materiaData.guardarMateria(nuevaMateria); 
         
-        // 5. Éxito
+        // registro exitoso
         JOptionPane.showMessageDialog(this, 
             "Materia registrada:\nID: " + nuevaMateria.getIdMateria() + "\nNombre: " + nuevaMateria.getNombre(), 
             "Registro Exitoso", 
             JOptionPane.INFORMATION_MESSAGE);
 
-        // 6. Limpiar campos
+        //  Limpia campos
         jTextField1.setText("");
         jTextField2.setText("");
 

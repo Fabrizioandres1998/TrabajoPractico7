@@ -181,34 +181,33 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
     private void jBinsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinsertarActionPerformed
         // TODO add your handling code here:
        try {
-            // 1. Obtener datos de los campos de texto
+            // obtien datos de los campos de texto
             int dni = Integer.parseInt(jTdni.getText()); 
             String apellido = jTapellido.getText();
             String nombre = jTnombre.getText();
             
-            // **IMPORTANTE: Si usas JDateChooser:**
-            // LocalDate fechaNacimiento = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+           
             
-            // **Si usas JTextField para la fecha (ejemplo):**
+          
             LocalDate fechaNacimiento = LocalDate.parse(jTfechaNacimiento.getText()); 
 
-            // 2. Validar que los campos no estén vacíos (añade más validaciones si es necesario)
+            //  Valida que los campos no esten vacios
             if (apellido.isEmpty() || nombre.isEmpty()) {
                  JOptionPane.showMessageDialog(this, "Debe completar todos los campos.", "Datos Incompletos", JOptionPane.WARNING_MESSAGE);
                  return;
             }
 
-            // 3. Crear el objeto Alumno
-            // El 'true' es el estado inicial (activo)
+            //  crear el objeto alumno
+           
             Alumno nuevoAlumno = new Alumno(dni, apellido, nombre, fechaNacimiento, true); 
 
-            // 4. Guardar en la base de datos usando la capa de datos inyectada
+            //  Guarda en la base de datos
             alumnoData.guardarAlumno(nuevoAlumno);
             
-            // 5. Mostrar mensaje y limpiar
+            // Muestra mensaje y limpia
             JOptionPane.showMessageDialog(this, "Alumno insertado con éxito. ID: " + nuevoAlumno.getIdAlumno(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             
-            // Limpiar campos (ajusta los nombres de tus JTextFields)
+            // limpiar campos 
             jTdni.setText("");
             jTapellido.setText("");
             jTnombre.setText("");
@@ -217,7 +216,7 @@ public class InsertarAlumno extends javax.swing.JInternalFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El DNI y/o la Fecha de Nacimiento no tienen un formato válido.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            // Captura cualquier otro error (ej: DNI duplicado en la base de datos)
+            // captura cualquier otro error 
             JOptionPane.showMessageDialog(this, "Error al insertar el alumno: " + e.getMessage(), "Error de SQL", JOptionPane.ERROR_MESSAGE);
         } 
     }//GEN-LAST:event_jBinsertarActionPerformed

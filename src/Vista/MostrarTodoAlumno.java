@@ -173,13 +173,13 @@ public class MostrarTodoAlumno extends javax.swing.JInternalFrame {
 
     
     public void cargarAlumnos() {
-        // Limpiar filas anteriores 
+        // Limpia filas anteriores 
         modelo.setRowCount(0); 
         
-        // Obtener la lista de alumnos
+        // Obtiene la lista de alumnos
         List<Alumno> listaAlumnos = alumnoData.obtenerTodosLosAlumnos(); 
         
-        // Recorrer la lista y añadir cada alumno
+        // Recorre la lista y añade cada alumno
         for (Alumno alumno : listaAlumnos) {
             
             

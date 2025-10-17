@@ -141,10 +141,10 @@ public class BorrarMateria extends javax.swing.JInternalFrame {
     }
 
     try {
-        // 2. Convertir y obtener ID
+        //  Convierte y obtiena ID
         int id = Integer.parseInt(idTexto);
 
-        // 3. Confirmación de seguridad
+        //  Confirmasion de seguridad
         int confirmacion = JOptionPane.showConfirmDialog(
             this, 
             "¿Está seguro de que desea eliminar PERMANENTEMENTE la materia con ID " + id + "?", 
@@ -154,17 +154,17 @@ public class BorrarMateria extends javax.swing.JInternalFrame {
         );
         
         if (confirmacion == JOptionPane.YES_OPTION) {
-            // 4. Llamar al método de persistencia
+            //  Llama al metodo de persistencia
             int borradoExitoso = materiaData.borrarMateria(id); 
             
-            // 5. Mostrar resultado
+            // Muestra resultado
             if (borradoExitoso > 0) {
                 JOptionPane.showMessageDialog(this, "Materia ID " + id + " eliminada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró la materia con ID " + id + " para borrar.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
-            // 6. Limpiar campo
+            //  Limpia campo
             jTextField1.setText("");
         }
 

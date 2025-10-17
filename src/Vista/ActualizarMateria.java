@@ -185,21 +185,21 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
         }
         
         try {
-            // 1. Obtener los nuevos valores del formulario
+            //   nuevos valores del formulario
             String nombre = jTextField2.getText();
             int año = Integer.parseInt(jTextField3.getText());
 
-            // 2. Actualizar el objeto 'materiaActual' con los nuevos datos
+            //  Actualiza el objeto 'materiaActual' con los nuevos datos
             materiaActual.setNombre(nombre);
             materiaActual.setAño(año);
-            // El estado (estado) se mantiene como estaba (true/false) al ser buscado.
+            // El estado  se mantiene como estaba (true/false) al ser buscado
 
-            // 3. Llamar al método de actualización de la capa de datos
+            // Llamar al metodo de actualizacion de la capa de datos
             materiaData.actualizarMateria(materiaActual);
             
             JOptionPane.showMessageDialog(this, "Materia ID " + materiaActual.getIdMateria() + " actualizada correctamente.");
             
-            // Opcional: Limpiar los campos después de guardar
+            //  Limpia los campos despues de guardar
             materiaActual = null;
             jTextField1.setText("");
             jTextField2.setText("");
@@ -217,14 +217,14 @@ public class ActualizarMateria extends javax.swing.JInternalFrame {
         try {
             int id = Integer.parseInt(jTextField1.getText());
             
-            // 1. Llamar al método corregido
+            //  Llama al metodo corregido
             Materia m = materiaData.buscarMateria(id); 
             
             if (m != null) {
-                // 2. Guardar la materia encontrada en la variable de clase
+                //  Guarda la materia encontrada en la variable de clase
                 materiaActual = m; 
                 
-                // 3. Cargar los datos en los campos de texto
+                //  Cargar los datos en los campos de texto
                 jTextField2.setText(m.getNombre());
                 jTextField3.setText(String.valueOf(m.getAño()));
                 JOptionPane.showMessageDialog(this, "Materia encontrada. Modifique y guarde.");

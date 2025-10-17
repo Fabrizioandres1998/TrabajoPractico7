@@ -15,13 +15,11 @@ import java.awt.event.ActionEvent;
 public class BorrarAlumno extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData;
     private Alumno alumnoEncontrado;
-    /**
-     * Creates new form BorrarAlumno
-     */
+   
     public BorrarAlumno(AlumnoData ad) {
         initComponents();
         this.alumnoData = ad;
-        // Limpiamos los campos al iniciar
+        // Limpia los campos al iniciar
         limpiarCampos();
     }
 
@@ -187,7 +185,7 @@ public class BorrarAlumno extends javax.swing.JInternalFrame {
             return;
         }
 
-        // 1. Pedir confirmación final antes de la eliminación física
+        //  Pide confirmacion  antes de eliminar 
         int confirmacion = JOptionPane.showConfirmDialog(
             this,
             "¿Está seguro de BORRAR PERMANENTEMENTE a " + alumnoEncontrado.getNombre() + " " + alumnoEncontrado.getApellido() + "? Esta acción no se puede deshacer.",
@@ -198,14 +196,14 @@ public class BorrarAlumno extends javax.swing.JInternalFrame {
 
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
-                // 2. Ejecutar el borrado físico (asumo que tu método recibe el ID)
+                //  Ejecutar el borrado 
                 alumnoData.borrarAlumno(alumnoEncontrado.getIdAlumno()); 
                 
                 JOptionPane.showMessageDialog(this, "Alumno borrado permanentemente con éxito.", "Borrado Exitoso", JOptionPane.INFORMATION_MESSAGE);
                 limpiarCampos();
 
             } catch (Exception ex) {
-                // Si tu método de borrarAlumno lanza una excepción, la manejas aquí
+                // para manejar execiones
                 JOptionPane.showMessageDialog(this, "Error al intentar borrar el alumno: " + ex.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
             }
         }

@@ -128,9 +128,8 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         BorrarMateria vm = new BorrarMateria(materiaData); 
     
-    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
-    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
-    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    //  Obtiene el JDesktopPane de la ventana principal (SGULP)
+    
     if (this.getDesktopPane() != null) {
         this.getDesktopPane().add(vm);
         vm.setVisible(true);
@@ -142,9 +141,8 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
                 InsertarMateria vm = new InsertarMateria(materiaData); 
     
-    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
-    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
-    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    //  Obtiene el JDesktopPane de la ventana principal (SGULP)
+   
     if (this.getDesktopPane() != null) {
         this.getDesktopPane().add(vm);
         vm.setVisible(true);
@@ -156,9 +154,8 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         ActualizarMateria vm = new ActualizarMateria(materiaData); 
     
-    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
-    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
-    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    //  Obtiene el JDesktopPane de la ventana principal (SGULP)
+    
     if (this.getDesktopPane() != null) {
         this.getDesktopPane().add(vm);
         vm.setVisible(true);
@@ -170,9 +167,8 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
             BajaAltaMateria vm = new BajaAltaMateria(materiaData); 
     
-    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
-    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
-    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    //  Obtiene el JDesktopPane de la ventana principal (SGULP)
+  
     if (this.getDesktopPane() != null) {
         this.getDesktopPane().add(vm);
         vm.setVisible(true);
@@ -184,9 +180,8 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
                 MostarTodoMateria vm = new MostarTodoMateria(materiaData); 
     
-    // 2. Obtener el JDesktopPane de la ventana principal (SGULP)
-    // Para esto, la VistaMateria DEBE estar en un JDesktopPane.
-    // Usamos getDesktopPane() para acceder al contenedor padre (SGULP).
+    //  Obtiene el JDesktopPane de la ventana principal (SGULP)
+
     if (this.getDesktopPane() != null) {
         this.getDesktopPane().add(vm);
         vm.setVisible(true);
