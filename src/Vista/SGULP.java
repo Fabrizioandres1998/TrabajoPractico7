@@ -11,12 +11,13 @@ public class SGULP extends javax.swing.JFrame {
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
     private VistaCargarNotas vistaNotas;
+    private ListarInscripciones listarInscripciones;
     private Conexion conexion;
 
     /**
      * Creates new form NewJFrame
      */
-    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id, VistaCargarNotas vn) {
+    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id, VistaCargarNotas vn, ListarInscripciones li) {
         initComponents();
         this.setLocationRelativeTo(null);
 
@@ -24,6 +25,7 @@ public class SGULP extends javax.swing.JFrame {
         this.materiaData = md;
         this.inscripcionData = id;
         this.vistaNotas = vn;
+        this.listarInscripciones = li;
         /*try {
             // **logica de inicializacion**
             conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", ""); 
@@ -70,6 +72,7 @@ public class SGULP extends javax.swing.JFrame {
         jmateria = new javax.swing.JMenuItem();
         jminscripcion = new javax.swing.JMenuItem();
         jmVistaCargarNotas = new javax.swing.JMenuItem();
+        jmVistaListarInscripciones = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +127,14 @@ public class SGULP extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jmVistaCargarNotas);
+
+        jmVistaListarInscripciones.setText("Vista listar inscripciones");
+        jmVistaListarInscripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmVistaListarInscripcionesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmVistaListarInscripciones);
 
         jMenuBar1.add(jMenu1);
 
@@ -210,12 +221,27 @@ public class SGULP extends javax.swing.JFrame {
         vistaNotas.toFront();
     }//GEN-LAST:event_jmVistaCargarNotasActionPerformed
 
+    private void jmVistaListarInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVistaListarInscripcionesActionPerformed
+        // Crear la vista de inscripción pasándole la capa de datos
+        ListarInscripciones li = new ListarInscripciones(alumnoData, materiaData, inscripcionData);
+
+        // Agregarla al escritorio (JDesktopPane) del JFrame principal
+        jDesktopPane1.add(li);
+
+        // Mostrar la ventana interna
+        li.setVisible(true);
+
+        // traerla al frente
+        li.toFront();
+    }//GEN-LAST:event_jmVistaListarInscripcionesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jmVistaCargarNotas;
+    private javax.swing.JMenuItem jmVistaListarInscripciones;
     private javax.swing.JMenuItem jmalumno;
     private javax.swing.JMenuItem jmateria;
     private javax.swing.JMenuItem jminscripcion;

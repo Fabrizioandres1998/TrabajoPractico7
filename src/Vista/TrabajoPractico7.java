@@ -35,9 +35,10 @@ public class TrabajoPractico7 {
         
         // Crear vistas
         VistaCargarNotas vistaNotas = new VistaCargarNotas(alumnoData, materiaData, inscripcionData);
-        
+        ListarInscripciones listarInscripciones = new ListarInscripciones(alumnoData, materiaData, inscripcionData);
+
         // Crear ventana principal
-        SGULP menuPrincipal = new SGULP(alumnoData, materiaData, inscripcionData, vistaNotas); 
+        SGULP menuPrincipal = new SGULP(alumnoData, materiaData, inscripcionData, vistaNotas, listarInscripciones); 
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
     }
