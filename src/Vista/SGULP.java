@@ -10,18 +10,20 @@ public class SGULP extends javax.swing.JFrame {
     private AlumnoData alumnoData;
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
+    private VistaCargarNotas vistaNotas;
     private Conexion conexion;
 
     /**
      * Creates new form NewJFrame
      */
-    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id) { 
+    public SGULP(AlumnoData ad, MateriaData md, InscripcionData id, VistaCargarNotas vn) {
         initComponents();
         this.setLocationRelativeTo(null);
 
         this.alumnoData = ad;
         this.materiaData = md;
         this.inscripcionData = id;
+        this.vistaNotas = vn;
         /*try {
             // **logica de inicializacion**
             conexion = new Conexion("jdbc:mariadb://localhost:3306/sgulp", "root", ""); 
@@ -67,6 +69,7 @@ public class SGULP extends javax.swing.JFrame {
         jmalumno = new javax.swing.JMenuItem();
         jmateria = new javax.swing.JMenuItem();
         jminscripcion = new javax.swing.JMenuItem();
+        jmVistaCargarNotas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,6 +116,14 @@ public class SGULP extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jminscripcion);
+
+        jmVistaCargarNotas.setText("Vista cargar notas");
+        jmVistaCargarNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmVistaCargarNotasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmVistaCargarNotas);
 
         jMenuBar1.add(jMenu1);
 
@@ -189,15 +200,22 @@ public class SGULP extends javax.swing.JFrame {
         // Mostrar la ventana interna
         vi.setVisible(true);
 
-        // Opcional: traerla al frente
+        // traerla al frente
         vi.toFront();
     }//GEN-LAST:event_jminscripcionActionPerformed
+
+    private void jmVistaCargarNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmVistaCargarNotasActionPerformed
+        jDesktopPane1.add(vistaNotas);
+        vistaNotas.setVisible(true);
+        vistaNotas.toFront();
+    }//GEN-LAST:event_jmVistaCargarNotasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jmVistaCargarNotas;
     private javax.swing.JMenuItem jmalumno;
     private javax.swing.JMenuItem jmateria;
     private javax.swing.JMenuItem jminscripcion;

@@ -110,7 +110,7 @@ public class InscripcionData {
                 // Materia completa con nombre
                 Materia m = new Materia();
                 m.setIdMateria(rs.getInt("idMateria"));
-                m.setNombre(rs.getString("nombre_materia")); // ✅ ¡Nombre incluido!
+                m.setNombre(rs.getString("nombre_materia")); 
                 m.setAño(rs.getInt("año"));
                 m.setEstado(rs.getBoolean("estado_materia"));
                 i.setMateria(m);
@@ -147,10 +147,10 @@ public class InscripcionData {
                 a.setApellido(rs.getString("alumno_apellido"));
                 inscripcion.setAlumno(a);
 
-                // Materia con datos completos (¡INCLUYENDO NOMBRE!)
+                // Materia con datos completos 
                 Materia m = new Materia();
                 m.setIdMateria(rs.getInt("idMateria"));
-                m.setNombre(rs.getString("nombre_materia")); // ✅ ¡Aquí está el nombre!
+                m.setNombre(rs.getString("nombre_materia")); 
                 m.setAño(rs.getInt("año"));
                 m.setEstado(rs.getBoolean("estado_materia"));
                 inscripcion.setMateria(m);
@@ -165,4 +165,24 @@ public class InscripcionData {
         }
         return inscripciones;
     }
+
+    public void actualizarNota(Inscripcion inscripcion) {
+        String query = "UPDATE inscripcion SET nota = ? WHERE idInscripto = ?";
+        try {
+            PreparedStatement ps = conex.prepareStatement(query);
+            ps.setInt(1, inscripcion.getNota());
+            ps.setInt(2, inscripcion.getIdInscripto());
+
+            int filasAfectadas = ps.executeUpdate();
+            System.out.println("Filas afectadas al actualizar nota: " + filasAfectadas
+                    + ", ID Inscripción: " + inscripcion.getIdInscripto()
+                    + ", Nueva nota: " + inscripcion.getNota());
+
+            ps.close();
+        } catch (SQLException ex) {
+            System.err.println("Error al actualizar nota: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 }

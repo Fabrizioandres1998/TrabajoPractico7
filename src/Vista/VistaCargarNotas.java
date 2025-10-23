@@ -1,21 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
-/**
- *
- * @author vanne
- */
+import Modelo.Alumno;
+import Modelo.Inscripcion;
+import Modelo.Materia;
+import Persistencia.AlumnoData;
+import Persistencia.InscripcionData;
+import Persistencia.MateriaData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class VistaCargarNotas extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form VistaCargarNotas
-     */
-    public VistaCargarNotas() {
+    private AlumnoData alumnoData;
+    private MateriaData materiaData;
+    private InscripcionData inscripcionData;
+
+    public VistaCargarNotas(AlumnoData alumnoData, MateriaData materiaData, InscripcionData inscripcionData) {
         initComponents();
+        this.alumnoData = alumnoData;
+        this.materiaData = materiaData;
+        this.inscripcionData = inscripcionData;
+
+        cargarComboAlumnos();
+
+        // Configuración de la ventana interna
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -28,11 +43,11 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbAlumno = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jtMaterias = new javax.swing.JTable();
+        jbGuardarCambios = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -42,9 +57,9 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jcbAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jcbAlumnoActionPerformed(evt);
             }
         });
 
@@ -52,7 +67,7 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(153, 0, 153));
         jLabel2.setText(" Alumno :");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -64,22 +79,35 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
             new String [] {
                 "ID.materia", "Nombre", "Nota"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(153, 0, 153));
-        jButton1.setText("Guardar Cambios");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtMaterias);
+
+        jbGuardarCambios.setBackground(new java.awt.Color(0, 0, 0));
+        jbGuardarCambios.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jbGuardarCambios.setForeground(new java.awt.Color(153, 0, 153));
+        jbGuardarCambios.setText("Guardar Cambios");
+        jbGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarCambiosActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 0, 153));
         jLabel1.setText("Cargar notas");
 
-        jDesktopPane1.setLayer(jComboBox1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jcbAlumno, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jbGuardarCambios, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
@@ -90,11 +118,11 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
                 .addGap(85, 85, 85)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jcbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(jbGuardarCambios)
                 .addGap(163, 163, 163))
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -113,11 +141,11 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(67, 67, 67)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -135,18 +163,139 @@ public class VistaCargarNotas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void jcbAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnoActionPerformed
+        cargarMateriasConNotas();
+    }//GEN-LAST:event_jcbAlumnoActionPerformed
+
+    private void jbGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarCambiosActionPerformed
+        guardarNotas();
+    }//GEN-LAST:event_jbGuardarCambiosActionPerformed
+
+    private void cargarComboAlumnos() {
+        // llena el combo con los nombres de los alumnos
+        if (alumnoData == null) {
+            return;
+        }
+        List<Alumno> lista = alumnoData.obtenerTodosLosAlumnos();
+        jcbAlumno.removeAllItems();
+        for (Alumno a : lista) {
+            jcbAlumno.addItem(a.getApellido() + ", " + a.getNombre());
+        }
+    }
+
+    private void cargarMateriasConNotas() {
+        int alumnoIndex = jcbAlumno.getSelectedIndex();
+        if (alumnoIndex < 0) {
+            return;
+        }
+
+        Alumno alumno = alumnoData.obtenerTodosLosAlumnos().get(alumnoIndex);
+
+        //usa obtenerTodasLasInscripciones() y filtra
+        List<Inscripcion> todasInscripciones = inscripcionData.obtenerTodasLasInscripciones();
+        List<Inscripcion> inscripcionesAlumno = new ArrayList<>();
+
+        for (Inscripcion inscripcion : todasInscripciones) {
+            if (inscripcion.getAlumno().getIdAlumno() == alumno.getIdAlumno()) {
+                inscripcionesAlumno.add(inscripcion);
+            }
+        }
+
+        DefaultTableModel modelo = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"ID.materia", "Nombre", "Nota"}
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 0) {
+                    return Integer.class;
+                }
+                if (columnIndex == 2) {
+                    return Integer.class;
+                }
+                return String.class;
+            }
+        };
+        jtMaterias.setModel(modelo);
+
+        for (Inscripcion inscripcion : inscripcionesAlumno) {
+            Materia materia = inscripcion.getMateria();
+            modelo.addRow(new Object[]{
+                materia.getIdMateria(),
+                materia.getNombre(),
+                inscripcion.getNota()
+            });
+        }
+    }
+
+    private void guardarNotas() {
+        if (jtMaterias.isEditing()) {
+            jtMaterias.getCellEditor().stopCellEditing();
+        }
+
+        int alumnoIndex = jcbAlumno.getSelectedIndex();
+        if (alumnoIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione un alumno");
+            return;
+        }
+
+        Alumno alumno = alumnoData.obtenerTodosLosAlumnos().get(alumnoIndex);
+        DefaultTableModel modelo = (DefaultTableModel) jtMaterias.getModel();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            int idMateria = (int) modelo.getValueAt(i, 0);
+            Object valorNota = modelo.getValueAt(i, 2);
+
+            if (valorNota != null && !valorNota.toString().trim().isEmpty()) {
+                try {
+                    double notaDouble = Double.parseDouble(valorNota.toString()); // toma exactamente lo escrito
+                    int nota = (int) notaDouble; // si la columna es int
+                    Inscripcion inscripcion = buscarInscripcion(alumno.getIdAlumno(), idMateria);
+                    if (inscripcion != null) {
+                        inscripcion.setNota(nota);
+                        inscripcionData.actualizarNota(inscripcion);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this,
+                            "Nota inválida en la fila " + (i + 1) + ": " + valorNota);
+                }
+            }
+
+        }
+
+        JOptionPane.showMessageDialog(this, "Notas guardadas correctamente");
+
+        // Recargar tabla para verificar
+        cargarMateriasConNotas();
+    }
+
+    private Inscripcion buscarInscripcion(int idAlumno, int idMateria) {
+        List<Inscripcion> inscripciones = inscripcionData.obtenerTodasLasInscripciones();
+        for (Inscripcion inscripcion : inscripciones) {
+            System.out.println("Inscripcion cargada: Alumno=" + inscripcion.getAlumno().getIdAlumno()
+                    + " Materia=" + inscripcion.getMateria().getIdMateria()
+                    + " IDInscripto=" + inscripcion.getIdInscripto());
+            if (inscripcion.getAlumno().getIdAlumno() == idAlumno
+                    && inscripcion.getMateria().getIdMateria() == idMateria) {
+                return inscripcion;
+            }
+        }
+        return null;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbGuardarCambios;
+    private javax.swing.JComboBox<String> jcbAlumno;
+    private javax.swing.JTable jtMaterias;
     // End of variables declaration//GEN-END:variables
 }
