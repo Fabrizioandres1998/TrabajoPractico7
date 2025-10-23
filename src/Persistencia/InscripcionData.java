@@ -184,5 +184,48 @@ public class InscripcionData {
             ex.printStackTrace();
         }
     }
+public List<Inscripcion> obtenerInscripcionesPorAlumno(int idAlumno) {
+    List<Inscripcion> inscripciones = new ArrayList<>();
+    String query = "SELECT i.*, m.nombre as nombre_materia, m.año, m.estado as estado_materia, "
+            + "a.nombre as nombre_alumno, a.apellido as alumno_apellido "
+            + "FROM inscripcion i "
+            + "JOIN materia m ON i.idMateria = m.idMateria "
+            + "JOIN alumno a ON i.idAlumno = a.idAlumno "
+            + "WHERE a.idAlumno = ?";
 
+    try {
+        PreparedStatement ps = conex.prepareStatement(query);
+        ps.setInt(1, idAlumno);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Inscripcion inscripcion = new Inscripcion();
+            inscripcion.setIdInscripto(rs.getInt("idInscripto"));
+            inscripcion.setNota(rs.getInt("nota"));
+
+            Alumno a = new Alumno();
+            a.setIdAlumno(rs.getInt("idAlumno"));
+            a.setNombre(rs.getString("nombre_alumno"));
+            a.setApellido(rs.getString("alumno_apellido"));
+            inscripcion.setAlumno(a);
+
+            Materia m = new Materia();
+            m.setIdMateria(rs.getInt("idMateria"));
+            m.setNombre(rs.getString("nombre_materia"));
+            m.setAño(rs.getInt("año"));
+            m.setEstado(rs.getBoolean("estado_materia"));
+            inscripcion.setMateria(m);
+
+            inscripciones.add(inscripcion);
+        }
+
+        ps.close();
+        System.out.println("Inscripciones del alumno obtenidas correctamente");
+    } catch (SQLException ex) {
+        System.err.println("Error al obtener inscripciones del alumno: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+
+    return inscripciones;
+}
 }
