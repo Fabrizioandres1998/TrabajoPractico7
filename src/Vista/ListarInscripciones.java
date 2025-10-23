@@ -5,6 +5,7 @@ import Modelo.Inscripcion;
 import Persistencia.AlumnoData;
 import Persistencia.InscripcionData;
 import Persistencia.MateriaData;
+import java.util.ArrayList;
 import modelo.Conexion;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +16,8 @@ public class ListarInscripciones extends javax.swing.JInternalFrame {
     private InscripcionData inscData = new InscripcionData(con);
     private AlumnoData ad = new AlumnoData(con);
     private DefaultTableModel modelo = new DefaultTableModel();
+
+    private List<Alumno> alumnos = new ArrayList<>();
 
     public ListarInscripciones(AlumnoData ad, MateriaData md, InscripcionData id) {
         initComponents();
@@ -160,9 +163,10 @@ public class ListarInscripciones extends javax.swing.JInternalFrame {
     }
 
     private void cargarAlumnos() {
-        List<Alumno> alumnos = ad.obtenerTodosLosAlumnos();
-        for (Alumno a : alumnos) {
-            jComboBox1.addItem(a);
+        alumnos = ad.obtenerTodosLosAlumnos();
+        jComboBox1.removeAllItems();
+        for (Alumno alu : alumnos) {
+            jComboBox1.addItem(alu); // agregar el objeto directamente
         }
     }
 
